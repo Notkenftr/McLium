@@ -17,7 +17,9 @@ from McLiumSDK import McLiumCommand
 ```
 ### Tạo Flag
 Flag là gì. Kiểu khi nhập như sau 
-``McLium Subcommand --example value``
+```bash
+McLium Subcommand --example value
+```
 thì --example sẽ là flag
 ```python
 from McLiumSDK import Flag
@@ -68,7 +70,10 @@ def callback(args):
 ```
 
 ví dụ:<br>
-ta sài: ``McLium Subcommand -e abc``
+ta sài: 
+```bash
+McLium Subcommand -e abc
+```
 thì ``example_value`` trong callback sẽ mang value là ``abc`` 
 
 
