@@ -77,6 +77,64 @@ McLium Subcommand -e abc
 thì ``example_value`` trong callback sẽ mang value là ``abc`` 
 
 
+## VD 1 script đơn giản 
 
+```python
+# modules/example/command.py
+
+from McLiumSDK import Flag, McLiumCommand
+
+# ️Tạo Flag
+Flags = [
+    Flag(
+        short='-e',
+        long='--example',
+        type=str,
+        default=None,
+        required=False,
+        help="Ví dụ nhập giá trị cho flag example",
+        action="store"
+    ),
+    Flag(
+        short='-v',
+        long='--verbose',
+        type=bool,
+        default=False,
+        required=False,
+        help="Bật chế độ verbose",
+        action="store_true"
+    ),
+    Flag(
+        short='-n',
+        long='--number',
+        type=int,
+        default=1,
+        required=False,
+        help="Số lượng thực hiện",
+        action="store"
+    )
+]
+
+# Tạo SubCommand
+sub = McLiumCommand(
+    name="example",
+    *Flags
+)
+
+# Gán callback
+@sub.setCallback
+def callback(args):
+    """
+    Hàm callback sẽ tự động được gọi khi người dùng chạy
+    `McLium Subcommand` với flag tương ứng.
+    """
+    example_value = args.example
+    verbose_mode = args.verbose
+    number_value = args.number
+
+    print(f"Flag --example/-e: {example_value}")
+    print(f"Flag --verbose/-v: {verbose_mode}")
+    print(f"Flag --number/-n: {number_value}")
+```
 
 
