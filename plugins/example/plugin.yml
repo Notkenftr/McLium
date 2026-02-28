@@ -1,0 +1,9 @@
+main: 'entry_point.main'
+name: "example"
+description: "this is example plugin"
+version: 1.0.0
+author: ["kenftr"]
+
+depend: []
+softdepend: []
+
