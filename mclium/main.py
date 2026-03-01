@@ -3,6 +3,7 @@ from mclium.context import Context
 from mclium.load_plugin import load
 
 def init_parser():
+
     parser = argparse.ArgumentParser(
         prog="Mclium",
         description="Minecraft server/client pentest tool"
