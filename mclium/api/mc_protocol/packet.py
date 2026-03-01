@@ -1,4 +1,4 @@
-from mclium.types import PacketFieldType
+from mclium.mclium_types import PacketFieldType
 from mclium.api.mc_protocol import Encode
 
 class _Field:

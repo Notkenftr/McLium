@@ -1,4 +1,4 @@
-main: 'entry_point.Main'
+main: 'get_server_info.Main'
 name: "example"
 description: "this is example plugin"
 version: 1.0.0
