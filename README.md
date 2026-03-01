@@ -22,7 +22,7 @@ Core features include:
 Comprehensive guides for developing and extending McLium:
 
 - **Plugin Development Guide**  
-  https://github.com/Notkenftr/McLium/tree/main/docs/how_to_make_a_plugin.md
+  https://github.com/Notkenftr/McLium/blob/main/docs/how_to_make_a_plugin.md
 
 - **Packet Creation Guide**  
   https://github.com/Notkenftr/McLium/tree/main/docs/how_to_create_a_packet.md
