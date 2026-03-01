@@ -4,6 +4,11 @@ description: "this is example plugin"
 version: 1.0.0
 author: ["kenftr"]
 
+require_libraries: []
+
 depend: []
 softdepend: []
 
+metadata:
+  type: "utils"
+  category: "utils"
