@@ -1,5 +1,3 @@
----
-
 # How to Make a Plugin
 
 ## Clone McLium
