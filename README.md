@@ -13,7 +13,17 @@ Core features include:
 **McLium is developed strictly for educational purposes and authorized security research only.**
 
 ---
-# Installation
+# 📄 Documentation
+
+Comprehensive guides for developing and extending McLium:
+
+- **Plugin Development Guide**  
+  https://github.com/Notkenftr/McLium/tree/main/docs/how_to_make_a_plugin.md
+
+- **Packet Creation Guide**  
+  https://github.com/Notkenftr/McLium/tree/main/docs/how_to_create_a_packet.md
+---
+# 📑 Installation
 
 ## 1. Clone repository
 ```bash
