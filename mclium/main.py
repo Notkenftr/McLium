@@ -20,7 +20,7 @@ def init_parser():
     console.print(r"/_/  /_/\___/_____/_/\__,_/_/ /_/ /_/ ")
     time.sleep(0.1)
     console.print("\n")
-
+    console.print(r"McLium by @kenftr")
 
 
     parser = argparse.ArgumentParser(
@@ -35,6 +35,8 @@ def init_parser():
 
     while True:
         try:
+            console.rule()
+            console.print("\n")
             cmd = console.input("[bold cyan]McLium[/bold cyan] > ")
 
             if cmd in ["exit", "quit"]:
@@ -57,3 +59,4 @@ def init_parser():
 
         except Exception as e:
             print("Error:", e)
+            continue
