@@ -12,5 +12,5 @@ from mclium.initialization import Initialization
 if __name__ == "__main__":
     Initialization()
 
-    from mclium.main import init_parser
-    init_parser()
+    from mclium.main import entry_point
+    entry_point()

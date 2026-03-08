@@ -3,11 +3,11 @@ from mclium.context import Context
 from mclium.load_plugin import load
 
 import time
-import rich
 from rich.console import Console
-from rich.prompt import Prompt
 
-def init_parser():
+
+#entry point
+def entry_point():
     console = Console()
     console.print(r"    __  ___     __    _               ")
     time.sleep(0.1)
