@@ -1,6 +1,5 @@
 import sys
 import os
-
 root = os.path.dirname(os.path.abspath(__file__))
 libraries_dir = os.path.join(root, "libraries")
 

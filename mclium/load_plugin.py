@@ -27,6 +27,8 @@ class PluginYml:
 
 
 def load():
+    import types
+
 
     plugins = {}
     loaded = set()
@@ -49,6 +51,11 @@ def load():
         changed = False
 
         for name, (plugin_yml, pl_path) in list(plugins.items()):
+
+            package_name = name
+            package = types.ModuleType(package_name)
+            package.__path__ = [pl_path]
+            sys.modules[package_name] = package
 
             if name in loaded:
                 continue

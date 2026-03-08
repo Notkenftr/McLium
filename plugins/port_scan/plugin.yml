@@ -1,0 +1,9 @@
+main: 'port_scan.Main'
+name: "port_scan"
+description: "Scan port minecraft server"
+version: 1.0.0
+author: ["kenftr"]
+
+depend: []
+softdepend: []
+

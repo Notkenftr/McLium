@@ -34,7 +34,7 @@ class Main(SubCommandModule):
                 long='--timeout',
                 type=int,
                 required=False,
-                default=5,
+                default=1,
             )
         ]
         super().__init__('get-server-info',flags)
