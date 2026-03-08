@@ -1,6 +1,6 @@
 main: 'get_server_info.Main'
-name: "example"
-description: "this is example plugin"
+name: "get_Server_info"
+description: "get minecraft server info"
 version: 1.0.0
 author: ["kenftr"]
 

@@ -1,2 +1,9 @@
-from .packet_field import PacketFieldType as PacketFieldType
-from .flag import Flag as Flag
+from .packet_field import PacketFieldType
+from .flag import Flag
+from .protocol_state import ProtocolState
+
+__all__ = [
+    "PacketFieldType",
+    "Flag",
+    "ProtocolState"
+]

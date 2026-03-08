@@ -7,3 +7,4 @@ class PacketFieldType(Enum):
     INT = "int"
     BOOL = "bool"
     UUID = "uuid"
+    UNSIGNED_SHORT = "unsigned_short"
