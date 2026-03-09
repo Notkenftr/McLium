@@ -29,6 +29,7 @@ class PluginYml:
 def load():
     import types
 
+    loaded_plugins = []
 
     plugins = {}
     loaded = set()
@@ -90,7 +91,7 @@ def load():
 
             loaded.add(name)
             changed = True
-
+            print(f"[PluginLoader] Loaded {name} v{plugin_yml.version}")
     for name, (plugin_yml, _) in plugins.items():
         for d in plugin_yml.depend:
             if d not in loaded:

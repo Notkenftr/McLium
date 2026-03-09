@@ -6,7 +6,6 @@ import time
 from rich.console import Console
 
 
-#entry point
 def entry_point():
     console = Console()
     console.print(r"    __  ___     __    _               ")
@@ -21,6 +20,7 @@ def entry_point():
     time.sleep(0.1)
     console.print("\n")
     console.print(r"McLium by @kenftr")
+    console.print("\n")
 
 
     parser = argparse.ArgumentParser(
@@ -31,8 +31,11 @@ def entry_point():
     subparser = parser.add_subparsers(dest="command")
     Context().subparser = subparser
 
-    load()
-
+    loaded_plugin = load()
+    console.print()
+    console.print(f"[bold green]Loaded {len(loaded_plugin)} plugins[/bold green]\n")
+    for plugin in loaded_plugin:
+        console.print(f"[cyan]•[/cyan] {plugin}")
     while True:
         try:
             console.rule()
