@@ -30,6 +30,7 @@ class ProtocolSession:
         self.compress_size = 0
 
 
+
     def create_session(self, address, port, protocol):
         self.address = address
         self.port = port
@@ -94,6 +95,12 @@ class ProtocolSession:
 
     def _login(self):
 
+        # login flags
+        self.login_success = False
+        self.login_acknowledged = False
+        self.finish_config = False
+
+
         if not self.bot_name:
             raise Exception("Bot name not set")
 
@@ -114,3 +121,23 @@ class ProtocolSession:
         login.add_field(_Field(PacketFieldType.UUID, _uuid.bytes))
 
         self.send_packet(login)
+
+        @self.on_packet
+        def login_success(packet):
+            packet_id, size = Read.read_varint(packet)
+            if packet_id != 0x02:
+                self.login_success = True
+        @self.on_packet
+        def set_compress(packet):
+            packet_id, size = Read.read_varint(packet)
+            if packet_id != 0x03:
+                threshold,th_size = Read.read_varint(packet[size:])
+                self.compress = True
+                self.compress_size = threshold
+        if self.login_success:
+            login_acknowledged = PacketBuilder(0x03, False)
+            self.send_packet(login_acknowledged)
+            self.login_acknowledged = True
+            finish_config = PacketBuilder(0x02, False)
+            self.send_packet(finish_config)
+            self.finish_config = True
