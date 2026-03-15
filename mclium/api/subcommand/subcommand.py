@@ -12,7 +12,6 @@ class SubCommandModule(ABC):
 
     def register_subcommand(self):
         self.sub = self.subparser.add_parser(self.name)
-
         for flag in self.flags:
             names = []
             if flag.short:
@@ -39,7 +38,7 @@ class SubCommandModule(ABC):
         while True:
             command = self.console.input(
                 f"[bold cyan]McLium[/bold cyan] - (mclium/{self.name}) >> "
-            )   
+            )
             command = command.strip()
 
             if command in ("exit", "quit"):

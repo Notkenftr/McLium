@@ -1,11 +1,14 @@
-from mclium.api import SubCommandModule
+from mclium import SubCommandModule
 from mclium.mclium_types import Flag
 from .scan import syn_scan,udp_scan,xmas_scan
 
+
 from rich.table import Table
 from rich.panel import Panel
+
+
 from rich.console import Console
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor,as_completed
 
 console = Console()
 
@@ -125,7 +128,6 @@ class Main(SubCommandModule):
         self.type = args.type.lower()
 
         ports = list(range(args.start_port, args.end_port + 1))
-        port_chunks = chunk_ports(ports, workers)
 
         self.open_ports = []
         self.closed_ports = []
@@ -133,30 +135,34 @@ class Main(SubCommandModule):
 
         if self.type in ["tcp", "syn", "s"]:
             scan_func = syn_scan
-
         elif self.type in ["udp", "u"]:
             scan_func = udp_scan
-
         elif self.type in ["xmas", "x"]:
             scan_func = xmas_scan
-
         else:
             console.print(f"[red]Unsupported scan type: {self.type}[/red]")
             return
+
+        chunk_size = max(1, len(ports) // workers)
+        chunks = [ports[i:i + chunk_size] for i in range(0, len(ports), chunk_size)]
 
         with ThreadPoolExecutor(max_workers=workers) as executor:
 
             futures = [
                 executor.submit(scan_func, self.address, chunk)
-                for chunk in port_chunks
+                for chunk in chunks
             ]
 
-            for f in futures:
-                o, c, fl = f.result()
+            for future in as_completed(futures):
+                try:
+                    o, c, fl = future.result()
 
-                self.open_ports.extend(o)
-                self.closed_ports.extend(c)
-                self.filtered_ports.extend(fl)
+                    self.open_ports.extend(o)
+                    self.closed_ports.extend(c)
+                    self.filtered_ports.extend(fl)
+
+                except Exception as e:
+                    console.print(f"[red]Scan error: {e}[/red]")
 
         print_summary(
             self.address,
@@ -164,6 +170,7 @@ class Main(SubCommandModule):
             self.closed_ports,
             self.filtered_ports
         )
+
     def interactive(self,command):
         cmd = command.strip().lower()
 

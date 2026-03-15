@@ -29,8 +29,6 @@ class PluginYml:
 def load():
     import types
 
-    loaded_plugins = []
-
     plugins = {}
     loaded = set()
 

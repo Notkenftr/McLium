@@ -10,3 +10,4 @@ class Context:
         if self._instance is None:
             return
         self.subparser = None
+        self.command_list = []

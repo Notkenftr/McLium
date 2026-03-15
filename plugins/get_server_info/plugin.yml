@@ -1,5 +1,5 @@
 main: 'get_server_info.Main'
-name: "get_Server_info"
+name: "get_server_info"
 description: "get minecraft server info"
 version: 1.0.0
 author: ["kenftr"]

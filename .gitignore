@@ -9,4 +9,10 @@
 __pycache__/
 *.pyc
 
-libraries/
+# ignore libraries
+libraries/*
+
+# allow mc4j runtime
+mc4j/
+mc4j/runtimes/
+mc4j/docker/

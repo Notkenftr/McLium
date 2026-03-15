@@ -16,6 +16,8 @@ class Initialization:
     def _create_folder(self):
         root = Path.getRootPath()
         os.makedirs(os.path.join(root,"libraries"), exist_ok=True)
+        os.makedirs(os.path.join(root, "mc4j"), exist_ok=True)
+        os.makedirs(os.path.join(root,"mc4j","docker"),exist_ok=True)
         os.makedirs(os.path.join(root, 'data'), exist_ok=True)
         os.makedirs(os.path.join(root, 'logs'), exist_ok=True)
         os.makedirs(os.path.join(root, '.cache'), exist_ok=True)

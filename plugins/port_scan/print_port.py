@@ -16,3 +16,4 @@ def print_ports(port, state):
 
     else:
         console.print(f"[white]{state}[/white] : {port}")
+
