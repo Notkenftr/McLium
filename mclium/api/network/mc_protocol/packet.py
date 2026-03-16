@@ -2,7 +2,7 @@ import socket
 import binascii
 
 from mclium.mclium_types import PacketFieldType
-from mclium.api.mc_protocol import Encode
+from mclium.api.network.mc_protocol import Encode
 
 
 class _Field:
@@ -46,7 +46,8 @@ def _EncodeField(field: "PacketFieldType", debug=False) -> bytes:
 
     if ft == PacketFieldType.UNSIGNED_SHORT:
         return prefix + field.value.to_bytes(2, "big")
-
+    if ft == PacketFieldType.LONG:
+        return prefix + field.value.to_bytes(8, "big", signed=True)
     if ft == PacketFieldType.UUID:
         if isinstance(field.value, bytes):
             if len(field.value) != 16:
@@ -95,40 +96,6 @@ class PacketBuilder:
         return packet
 
 
-class Packet:
-
-    @staticmethod
-    def get_handshake_state(protocol, address, port, state=1, debug=False):
-        packet = PacketBuilder(0x00, debug)
-
-        packet.add_field(_Field(PacketFieldType.VARINT, int(protocol)))
-        packet.add_field(_Field(PacketFieldType.STRING, str(address)))
-        packet.add_field(_Field(PacketFieldType.UNSIGNED_SHORT, int(port)))
-        packet.add_field(_Field(PacketFieldType.VARINT, state))
-
-        return packet.Build()
-
-    @staticmethod
-    def get_login_start(name: str, player_uuid: str = None, debug=False) -> bytes:
-        import uuid
-
-        if player_uuid is None:
-            player_uuid = uuid.uuid3(
-                uuid.NAMESPACE_DNS,
-                f"OfflinePlayer:{name}"
-            ).bytes
-
-        packet = PacketBuilder(0x00, debug)
-
-        packet.add_field(_Field(PacketFieldType.STRING, str(name)))
-        packet.add_field(_Field(PacketFieldType.UUID, player_uuid))
-
-        return packet.Build()
-
-    @staticmethod
-    def get_status_request(debug=False):
-        packet = PacketBuilder(0x00, debug)
-        return packet.Build()
 
 
 class PacketFlow:

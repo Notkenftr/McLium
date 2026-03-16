@@ -2,7 +2,23 @@ from abc import ABC, abstractmethod
 from mclium.context import Context
 from rich.console import Console
 
+
+class OnelineCommandModule(ABC):
+    """
+    nếu sài oneline thì ko cần mclium sau đó nhập subcommand. Do inline sẽ chạy thẳng và load plugin depend
+    Example:
+        1. mclium port_scan -a example...
+    """
+
+
 class SubCommandModule(ABC):
+    """
+    Chỉ sài khi thực sự cần load toàn bộ plugin và api + service của mclium, cái này kiểu sài mclium rồi mới được nhập lệnh
+    Example:
+        1. mclium
+        2. port_scan -a example....
+
+    """
     def __init__(self, name, flags=None):
         self.name = name
         self.flags = flags or []

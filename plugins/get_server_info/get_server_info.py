@@ -1,6 +1,5 @@
-import time
 import socket
-from mclium.api.mc_protocol.packet import Packet
+from mclium.api.network.mc_protocol import Packet
 from mclium.api import SubCommandModule
 from mclium.mclium_types import Flag
 

@@ -1,7 +1,7 @@
 class Encode:
     @staticmethod
     def EncodeString(string):
-        from mclium.api.mc_protocol import Encode
+        from mclium.api.network.mc_protocol import Encode
         string_bytes = string.encode('utf-8')
         return Encode.EncodeVarInt(len(string_bytes)) + string_bytes
 
