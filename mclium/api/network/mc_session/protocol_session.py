@@ -92,13 +92,3 @@ class ProtocolSession:
         thread.join()
 
 
-if __name__ == '__main__':
-    session = ProtocolSession(
-        address="localhost",
-        port=25565,
-        protocol_version=767,
-        bot_name="kenftr",
-        timeout=5
-    )
-    session.packet_sniffer(True)
-    session.start()
