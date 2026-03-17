@@ -32,7 +32,36 @@ if __name__ == '__main__':
     for i in range(5):
         data = byte_array[offset]
         offset += 1 # vì sao lại +1 vì chúng ta dựa vào offset để đi qua byte_array nên cần +1 để đến byte tiếp theo
+
+        # để hiểu dòng này chúng ta cần hiểu được byte shift là gì
+        # có 2 loại shift chính:
+        # shift trái: x << y
+        # shift phải: x >> y
+        # ví dụ
+        # 5 << 1
+        # 5 = 00000101
+        # thì khi shift trái 1 sẽ dịch 00000101 sang 1 bit tức là 00001010
+        # truwc quan
+        # 00000101
+        # 00001010 nnó đã dịch sang 1 ô
+
+        # |=  nghĩa là or rồi gán lại
+        # | A | B | A OR B  |
+        # | 0 | 0 | 0       |
+        # | 0 | 1 | 1       |
+        # | 1 | 0 | 1       |
+        # | 1 | 1 | 1       |
+        # VÍ DỤ
+        # A = 00000010
+        # B = 00000010
+        # A |= B -> 00000010
+
+        # A = 00000011
+        # B = 00000001
+        # A |= B -> 00000011 # vì 1 | 0 = 1
+
         num |= (data & 0x7F) << shift
+        #
 
         if not (data & 0x80): # 0x80 dùng để check xem còn byte ko
             # ví dụ
