@@ -1,4 +1,3 @@
-from mclium.api import PacketBuilder,_Field,PacketFieldType
 
 class PacketList:
     """
@@ -7,6 +6,7 @@ class PacketList:
 
     @staticmethod
     def get_handshake_state(protocol, address, port, state=1, debug=False):
+        from mclium.api import PacketBuilder, _Field, PacketFieldType
         """
         :param state: state 1 = get server status, state 2 = login request
         :return: packet.Build()
@@ -23,6 +23,7 @@ class PacketList:
     @staticmethod
     def get_login_start(name: str, player_uuid: str = None, debug=False) -> bytes:
         import uuid
+        from mclium.api import PacketBuilder, _Field, PacketFieldType
 
         if player_uuid is None:
             player_uuid = uuid.uuid3(
@@ -39,21 +40,25 @@ class PacketList:
 
     @staticmethod
     def get_status_request(debug=False):
+        from mclium.api import PacketBuilder, _Field, PacketFieldType
         packet = PacketBuilder(0x00, debug)
         return packet.Build()
 
     @staticmethod
     def get_login_acknowledged(debug=False):
+        from mclium.api import PacketBuilder, _Field, PacketFieldType
         packet = PacketBuilder(0x03, debug)
         return packet.Build()
 
     @staticmethod
     def get_finish_config(debug=False):
+        from mclium.api import PacketBuilder, _Field, PacketFieldType
         packet = PacketBuilder(0x02, debug)
         return packet.Build()
 
     @staticmethod
     def get_keepalive(keep_id, debug=False):
+        from mclium.api import PacketBuilder, _Field, PacketFieldType
         packet = PacketBuilder(0x15, debug)
         packet.add_field(_Field(PacketFieldType.LONG, keep_id))
         return packet.Build()
