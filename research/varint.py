@@ -1,5 +1,7 @@
 # file research by @kenftr
 
+#read varint
+
 # công thức varint
 # num = Σ ( (byte_i & 0x7F) << (7 * i) )
 # | Thành phần | Ý nghĩa               |
@@ -73,4 +75,64 @@ if __name__ == '__main__':
         shift += 7 # vì sao lại là += 7? vì 1 byte = 8 bit
                    # nhưng VarInt chỉ dùng 7 bit để chứa value
                    # bit còn lại dùng làm flag (0x80)
+
+# encode varint
+
+# encode ngược lại với read
+# read: ghép từng byte -> số
+# encode: tách số -> từng byte
+
+# công thức
+# byte_i = ((value >> (7 * i)) & 0x7F) | (0x80 nếu còn byte sau, ngược lại 0)
+
+if __name__ == '__main__':
+    value = 2 # value example
+    result = bytearray()
+    while True:
+        byte = value & 0x7F
+        # vì sao lại là 0x7F?
+        # 0x7F = 01111111
+        # tức là giữ 7 bit sau bỏ bit đầu
+        # ví dụ
+        # 10000000 & 0xF7 ( 0x7F = 01111111 )
+        # -> 00000000 # đã bỏ flag đầu thay bằng 0
+
+        value >>= 7 # dịch value sang phải 7 bit ( bỏ 7 bit vừa lấy ra từ value & 0x7F)
+        # ví dụ về shift phải
+        # 5 = 00000101
+        # dịch phải 1 bit
+        # 00000101  →  00000010
+        # dịch phải 7 bit
+        # 00000101 -> 00000000
+
+        if value != 0: # nếu value chx hết
+            value |= 0x80 # như đã nói ở varint cái này sẽ giúp ktra xem bit còn k
+        result.append(byte)
+
+        if value == 0:
+            break # end
+    # return bytes(result)
+    print(bytes(result))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
