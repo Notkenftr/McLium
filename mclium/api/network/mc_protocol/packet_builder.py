@@ -1,4 +1,5 @@
 import zlib
+import hashlib
 import binascii
 
 from mclium.mclium_types import PacketFieldType
@@ -46,19 +47,103 @@ class _Field:
 
 class PacketBuilder:
     def __init__(self, packet_id=None, debug=False):
+
+        # packet info
         self.packet_id = packet_id
+        self.length = 0
         self.fields = []
-        self.debug = debug
+        self.fields_length = []
         self.raw_byte = None
+
+
+        self.debug = debug
+
+
+    #getter / setter
+
+    def get_packet_id(self) -> int:
+        return self.packet_id
+
+    def get_raw_packet(self) -> bytes:
+        return self.raw_byte
+
+    def get_fields(self) -> list[_Field]:
+        return self.fields
+
+    def get_length(self) -> int:
+        return self.length
+
+    def get_fields_length(self) -> list:
+        return self.fields_length
 
     def set_packet_id(self, packet_id):
         self.packet_id = packet_id
 
-    def get_raw_packet(self):
-        return self.raw_byte
+    def set_debug(self,value):
+        if value not in [True, False]:
+            raise ValueError("Debug must be True or False")
+        self.debug = value
+
+    # add
 
     def add_field(self, field):
         self.fields.append(field)
+
+    def add_fields(self,fields):
+        self.fields.extend(fields)
+
+    def add_raw_byte_field(self, raw: bytes):
+        self.fields.append(raw)
+        return self
+
+    # clear
+    def clear(self):
+        self.fields.clear()
+        self.fields_length.clear()
+        self.raw_byte = None
+        self.length = 0
+
+    # write
+    def write_varint(self, value):
+        return self.add_field(_Field(PacketFieldType.VARINT, value))
+
+    def write_string(self, value):
+        return self.add_field(_Field(PacketFieldType.STRING, value))
+
+    def write_bool(self, value):
+        return self.add_field(_Field(PacketFieldType.BOOL, value))
+
+    # utils
+    def pretty(self):
+        print(f"PacketID: {hex(self.packet_id)}")
+        for i, field in enumerate(self.fields):
+            print(f"[{i}] {field}")
+
+    def hex(self):
+        if self.raw_byte:
+            return self.raw_byte.hex()
+        return None
+
+    def size(self):
+        return len(self.raw_byte) if self.raw_byte else 0
+
+    def md5(self):
+        if self.raw_byte:
+            return hashlib.md5(self.raw_byte).hexdigest()
+
+    def diff(self, other):
+        return self.raw_byte != other.raw_byte
+
+    # build
+
+    def build_no_length(self) -> bytes:
+        data = bytearray()
+        data += Encode.EncodeVarInt(self.packet_id)
+
+        for field in self.fields:
+            data += _EncodeField(field, self.debug)
+
+        return data
 
     def Build(self) -> bytes:
         if self.packet_id is None:
@@ -71,12 +156,49 @@ class PacketBuilder:
         data += Encode.EncodeVarInt(self.packet_id)
 
         for field in self.fields:
-            data += _EncodeField(field, self.debug)
+            _field = _EncodeField(field, self.debug)
+            data += _field
+            self.fields_length.append(_field)
 
         packet = Encode.EncodeVarInt(len(data)) + data
+        self.length = len(packet)
 
         if self.debug:
             print("[PacketBuilder] Raw Packet:", binascii.hexlify(packet).decode())
         self.raw_byte = packet
         return packet
 
+    async def async_diff(self,other):
+        return self.raw_byte != other.raw_byte
+
+    async def async_build_no_length(self) -> bytes:
+        data = bytearray()
+        data += Encode.EncodeVarInt(self.packet_id)
+
+        for field in self.fields:
+            data += _EncodeField(field, self.debug)
+
+        return data
+
+    async def async_build(self):
+        if self.packet_id is None:
+            raise ValueError("Packet ID is not set")
+        data = bytearray()
+
+        if self.debug:
+            print(f"\n[PacketBuilder] PacketID = {hex(self.packet_id)}")
+
+        data += Encode.EncodeVarInt(self.packet_id)
+
+        for field in self.fields:
+            _field = _EncodeField(field, self.debug)
+            data += _field
+            self.fields_length.append(_field)
+
+        packet = Encode.EncodeVarInt(len(data)) + data
+        self.length = len(packet)
+
+        if self.debug:
+            print("[PacketBuilder] Raw Packet:", binascii.hexlify(packet).decode())
+        self.raw_byte = packet
+        return packet
