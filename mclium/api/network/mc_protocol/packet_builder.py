@@ -7,6 +7,17 @@ from mclium.api.network.mc_protocol import Read
 from mclium.api.network.mc_protocol import Encode
 from mclium._api.network.mc_protocol.local._EncodeField import _EncodeField
 
+class _Field:
+    def __init__(
+        self,
+        field_type: PacketFieldType,
+        value=None,
+        optional: bool = False
+    ):
+        self.field_type = field_type
+        self.value = value
+        self.optional = optional
+
 class PacketBuilderWrappedApi:
     def __init__(self,packet: PacketBuilder):
         self.packet = packet
@@ -34,16 +45,15 @@ class PacketBuilderWrappedApi:
             packet_length = Encode.EncodeVarInt(len(body))
             return packet_length + body
 
-class _Field:
-    def __init__(
-        self,
-        field_type: PacketFieldType,
-        value=None,
-        optional: bool = False
-    ):
-        self.field_type = field_type
-        self.value = value
-        self.optional = optional
+    def fake_data_length(self,length:int,packet: PacketBuilder):
+        def _strip_packet_length(packet):
+            offset = 0
+            _,offset = Read.read_varint(packet,offset)
+
+            return packet[offset:]
+
+        raw_data = _strip_packet_length(self.packet.get_raw_packet())
+        return Encode.EncodeVarInt(length) + raw_data
 
 class PacketBuilder:
     def __init__(self, packet_id=None, debug=False):
@@ -75,6 +85,9 @@ class PacketBuilder:
 
     def get_fields_length(self) -> list:
         return self.fields_length
+
+    def get_bytearrays(self):
+        return bytearray(self.raw_byte)
 
     def set_packet_id(self, packet_id):
         self.packet_id = packet_id
