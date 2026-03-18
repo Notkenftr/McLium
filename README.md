@@ -8,6 +8,7 @@
 
 It provides a set of powerful built-in utilities along with an extendable plugin capability, allowing users to perform network inspection, protocol interaction, and controlled stress testing.
 
+Additionally, McLium offers low-level packet crafting capabilities, giving users near - complete control over packet structure - from modifying individual bytes to constructing fully custom and non - compliant packets - enabling advanced testing scenarios such as protocol fuzzing, malformed packet injection, and boundary manipulation.
 Core features include:  
 > Port scanning <br>
 > UDP/TCP flood simulation<br>
