@@ -84,6 +84,31 @@ class PacketBuilder:
             raise ValueError("Debug must be True or False")
         self.debug = value
 
+    # insert
+    def insert_byte(self, index: int, value: int):
+        if self.raw_byte is None:
+            raise ValueError("Packet not built yet")
+
+        if not (0 <= value <= 255):
+            raise ValueError("Bytes must be between 0 and 255")
+
+        data = bytearray(self.raw_byte)
+
+        if index < 0 or index > len(data):
+            raise IndexError("Index out of range")
+
+        data.insert(index, value)
+
+        offset = 0
+        _, offset = Read.read_varint(data, offset)
+
+        body = data[offset:]
+
+        new_packet = Encode.EncodeVarInt(len(body)) + body
+
+        self.raw_byte = new_packet
+        return new_packet
+
     # add
 
     def add_field(self, field):
