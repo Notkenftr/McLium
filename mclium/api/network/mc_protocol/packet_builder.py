@@ -56,6 +56,11 @@ class PacketBuilderWrappedApi:
         return Encode.EncodeVarInt(length) + raw_data
 
 class PacketBuilder:
+    """
+    First, đây là api giúp build packet, cái này đưa cho bạn 99% control từ craft v.v edit từng byte. Nên hãy cẩn thận vì sai 1 byte hay gì đấy
+    có thể làm server crash hoặc bạn sẽ bị kick
+
+    """
     def __init__(self, packet_id=None, debug=False):
 
         # packet info
@@ -141,13 +146,19 @@ class PacketBuilder:
         self.raw_byte = None
         self.length = 0
 
-    # write
+    # fast write
     def write_varint(self, value):
         return self.add_field(_Field(PacketFieldType.VARINT, value))
-
     def write_string(self, value):
         return self.add_field(_Field(PacketFieldType.STRING, value))
-
+    def write_long(self,value):
+        return self.add_field(_Field(PacketFieldType.LONG, value))
+    def write_int(self,value):
+        return self.add_field(_Field(PacketFieldType.INT, value))
+    def write_unsigned_short(self,value):
+        return self.add_field(_Field(PacketFieldType.UNSIGNED_SHORT,value))
+    def write_uuid(self,value):
+        return self.add_field(_Field(PacketFieldType.UUID, value))
     def write_bool(self, value):
         return self.add_field(_Field(PacketFieldType.BOOL, value))
 
