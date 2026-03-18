@@ -1,9 +1,38 @@
+import zlib
 import socket
 import binascii
 
 from mclium.mclium_types import PacketFieldType
+from mclium.api.network.mc_protocol import Read
 from mclium.api.network.mc_protocol import Encode
+from mclium.api.network.mc_protocol._EncodeField import _EncodeField
 
+class PacketBuilderWrappedApi:
+    def __init__(self,packet: PacketBuilder):
+        self.packet = packet
+
+    def rebuild_with_compressed(self,threshold):
+        def _strip_packet_length(packet):
+            offset = 0
+            _,offset = Read.read_varint(packet,offset)
+
+            return packet[offset:]
+
+        raw_data = _strip_packet_length(self.packet.get_raw_packet())
+
+        if len(raw_data) < threshold:
+            data_length = Encode.EncodeVarInt(0)
+            body = data_length + raw_data
+
+            packet_length = Encode.EncodeVarInt(len(body))
+
+            return packet_length + body
+        else:
+            compressed = zlib.compress(raw_data)
+            data_length = Encode.EncodeVarInt(len(compressed))
+            body = data_length + compressed
+            packet_length = Encode.EncodeVarInt(len(body))
+            return packet_length + body
 
 class _Field:
     def __init__(
@@ -16,61 +45,18 @@ class _Field:
         self.value = value
         self.optional = optional
 
-
-def _EncodeField(field: "PacketFieldType", debug=False) -> bytes:
-    if field.optional:
-        if field.value is None:
-            if debug:
-                print("[Field] Optional = False")
-            return Encode.EncodeBool(False)
-        prefix = Encode.EncodeBool(True)
-    else:
-        prefix = b""
-
-    ft = field.field_type
-
-    if debug:
-        print(f"[Field] Type={ft} Value={field.value}")
-
-    if ft == PacketFieldType.VARINT:
-        return prefix + Encode.EncodeVarInt(field.value)
-
-    if ft == PacketFieldType.STRING:
-        return prefix + Encode.EncodeString(field.value)
-
-    if ft == PacketFieldType.BOOL:
-        return prefix + Encode.EncodeBool(field.value)
-
-    if ft == PacketFieldType.INT:
-        return prefix + field.value.to_bytes(4, "big", signed=True)
-
-    if ft == PacketFieldType.UNSIGNED_SHORT:
-        return prefix + field.value.to_bytes(2, "big")
-    if ft == PacketFieldType.LONG:
-        return prefix + field.value.to_bytes(8, "big", signed=True)
-    if ft == PacketFieldType.UUID:
-        if isinstance(field.value, bytes):
-            if len(field.value) != 16:
-                raise ValueError("UUID must be 16 bytes")
-            return prefix + field.value
-
-        import uuid
-        if isinstance(field.value, uuid.UUID):
-            return prefix + field.value.bytes
-
-        raise TypeError("UUID field must be uuid.UUID or 16-byte bytes")
-
-    raise ValueError(f"Unsupported field type: {ft}")
-
-
 class PacketBuilder:
     def __init__(self, packet_id=None, debug=False):
         self.packet_id = packet_id
         self.fields = []
         self.debug = debug
+        self.raw_byte = None
 
     def set_packet_id(self, packet_id):
         self.packet_id = packet_id
+
+    def get_raw_packet(self):
+        return self.raw_byte
 
     def add_field(self, field):
         self.fields.append(field)
@@ -92,11 +78,8 @@ class PacketBuilder:
 
         if self.debug:
             print("[PacketBuilder] Raw Packet:", binascii.hexlify(packet).decode())
-
+        self.raw_byte = packet
         return packet
-
-
-
 
 class PacketFlow:
 

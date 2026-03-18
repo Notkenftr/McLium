@@ -1,4 +1,6 @@
 import socket
+from zipimport import path_sep
+
 from mclium.api import PacketList
 from mclium.api.network.mc_protocol import Read
 
@@ -59,33 +61,44 @@ class ProtocolSession:
     def _login(self):
         @self.on_packet_event
         def on_packet(packet):
+            offset = 0
+            buf = packet
+
             if not self.is_compress:
-                buf = packet
-                offset = 0
-
                 length,offset = Read.read_varint(buf,offset)
-                packet_id, offset = Read.read_varint(buf,offset)
-
-                if packet_id == 0x03:
-                    threshold, offset = Read.read_varint(buf, offset)
-                    print("Compression threshold =", threshold)
-                    self.is_compress = True
-                    self.compress_size = threshold
-                if packet_id == 0x02:
-                    print("Login success pck")
-                    login_acknowledged_packet = PacketList.get_login_acknowledged(False)
-                    self.send_packet(login_acknowledged_packet)
-            if self.is_compress:
-                buf = packet
-                offset = 0
-                length, offset = Read.read_varint(buf, offset)
-                data_length, offset = Read.read_varint(buf, offset)
                 packet_id, offset = Read.read_varint(buf, offset)
+            else:
+                length,offset = Read.read_varint(buf,offset)
+                data_length,offset = Read.read_varint(buf, offset)
+                remaining = buf[offset: offset + length]
 
-                if packet_id == 0x02:
-                    print("Login success pck")
-                    login_acknowledged_packet = PacketList.get_login_acknowledged(False)
-                    self.send_packet(login_acknowledged_packet)
+                data_start = offset
+
+                if data_length == 0:
+                    inner_buf = buf[data_start:data_start + (length - (data_start))]
+                    inner_offset = 0
+                    packet_id, inner_offset = Read.read_varint(inner_buf, inner_offset)
+
+                    print(packet)
+                    print(packet_id)
+                    data_buf = length
+                else:
+                    import zlib
+                    decompressed = zlib.decompress(remaining)
+                    inner_offset = 0
+                    packet_id, inner_offset = Read.read_varint(decompressed, inner_offset)
+                    data_buf = decompressed
+                offset = 0
+
+            if packet_id == 0x03:
+                threshold, offset = Read.read_varint(buf, offset)
+                self.is_compress = True
+                self.compress_size = threshold
+                print("set compress")
+
+            elif packet_id == 0x02:
+                login_acknowedged = PacketList.get_login_acknowledged()
+                self.send_packet(login_acknowedged)
 
         handshake = PacketList.get_handshake_state(
             protocol=self.protocol_version,
