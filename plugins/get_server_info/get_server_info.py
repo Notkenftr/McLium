@@ -1,5 +1,5 @@
 import socket
-from mclium.api.network.mc_protocol import Packet
+from mclium.api.network.mc_protocol import PacketList
 from mclium.api import SubCommandModule
 from mclium.mclium_types import Flag
 
@@ -44,12 +44,12 @@ class Main(SubCommandModule):
         protocol = args.protocol
         timeout = args.timeout
 
-        handshake = Packet().get_handshake_state(
+        handshake = PacketList().get_handshake_state(
             protocol=protocol,
             address=address,
             port=port
         )
-        status_req = Packet().get_status_request()
+        status_req = PacketList().get_status_request()
 
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((address, port))
