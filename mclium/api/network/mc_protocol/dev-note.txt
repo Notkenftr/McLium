@@ -1,0 +1,1 @@
+các file bắt đầu từ _ là api nội bộ

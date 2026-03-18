@@ -1,6 +1,5 @@
 import socket
-from zipimport import path_sep
-
+from mclium.api import PacketBuilderWrappedApi
 from mclium.api import PacketList
 from mclium.api.network.mc_protocol import Read
 
@@ -53,7 +52,11 @@ class ProtocolSession:
     def send_packet(self,packet):
         if self.is_packet_sniffer:
             print("[C->S] {data}".format(data=packet))
-        self.sock.sendall(packet)
+        if not self.is_compress:
+            self.sock.sendall(packet)
+        else:
+            packet = PacketBuilderWrappedApi(packet)
+            self.sock.sendall(packet.rebuild_with_compressed(self.compress_size))
 
     def on_packet_event(self, func):
         self.packet_handlers.append(func)
