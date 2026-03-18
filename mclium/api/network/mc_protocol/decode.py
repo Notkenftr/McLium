@@ -1,3 +1,4 @@
+from mclium.api import Encode
 class Decode:
     @staticmethod
     def DecodeVarInt(data: bytes) -> tuple[int, int]:
