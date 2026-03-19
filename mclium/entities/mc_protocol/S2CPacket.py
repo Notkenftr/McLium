@@ -59,6 +59,10 @@ class S2CPacket:
         """Trả về payload gốc (compressed nếu có)"""
         return self.payload
 
+    def get_raw_packet(self) -> bytes:
+        return self.packet
+
+
     def get_decompressed_payload(self) -> bytes | None:
         """Trả về payload đã giải nén nếu compressed, None nếu không nén"""
         return self.decompressed

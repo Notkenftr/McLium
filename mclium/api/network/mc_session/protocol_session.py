@@ -86,23 +86,25 @@ class ProtocolSession:
             if self.is_compress:
                 wrapped = PacketBuilderWrappedApi(packet)
                 compressed_bytes = wrapped.rebuild_with_compressed(self.compress_size)
+                print(raw)
+                print(compressed_bytes)
                 self.sock.sendall(compressed_bytes)
 
                 if self.is_packet_sniffer:
                     self.packet_history.append(packet)
-                    print("[C->S] (compressed) {data}".format(data=compressed_bytes))
+                    print("[C2S] (compressed) {data}".format(data=compressed_bytes))
             else:
                 self.sock.sendall(raw)
 
                 if self.is_packet_sniffer:
                     self.packet_history.append(packet)
-                    print("[C->S] {data}".format(data=raw))
+                    print("[C2S] {data}".format(data=raw))
 
         elif isinstance(packet, bytes):
             self.sock.sendall(packet)
             if self.is_packet_sniffer:
                 self.packet_history.append(packet)
-                print("[C->S] {data}".format(data=packet))
+                print("[C2S] {data}".format(data=packet))
         else:
             raise TypeError("Unknown packet type")
 
@@ -132,10 +134,10 @@ class ProtocolSession:
         @self.packet_whitelist(0x03)
         def set_compressed_handle(packet: S2CPacket):
             if self.state == "LOGIN":
-                offset = 0
-                threshold,_ = Read.read_varint(packet.get_raw_payload(),offset)
+                threshold,_ = Read.read_varint(packet.get_payload(),0)
                 self.is_compress = True
                 self.compress_size = threshold
+                print(threshold)
 
         @self.on_packet_event
         @self.packet_whitelist(0x02)
@@ -150,10 +152,8 @@ class ProtocolSession:
         def keep_alive_handle(packet: S2CPacket):
             if self.state == "CONFIG":
                 payload = packet.get_decompressed_payload() or packet.get_payload()
-
                 offset = 0
                 keep_alive_id, offset = Read.read_long(payload, offset)
-                print(f"keep alive id {keep_alive_id}")
                 response = PacketList.get_keepalive(keep_alive_id, False, False)
                 self.send_packet(response)
 
@@ -184,105 +184,29 @@ class ProtocolSession:
         thread.join()
 
 if __name__ == '__main__':
-    from mclium.api.network.fake_server.fake_server import FakeServer
+    import random
+    sessions = [
+        ProtocolSession(
+            address="localhost",
+            port=25565,
+            protocol_version=767,
+            bot_name=str(random.randint(0, 255)),
+            timeout=10
+        )
+        for _ in range(500)  # số bot
+    ]
 
-    fake_server = FakeServer(
-        "localhost",
-        25566
-    )
+    t = []
 
-    fake_server.reply_multi_packet(b'\x18\x00\x06kenftr\xfc"\x00\xab=\x073\x7f\x8f\x0e\xb4\xeb\xdc\x98&S',
-                                   [
-                                       b'\x03\x03\x80\x02',
-                                       b'\x1b\x00\x02\xcce2\x88\x9f\xf1>\xf7\x99[2\xc6/_\xcd\xc4\x06kenftr\x00\x01'
-                                   ])
+    for session in sessions:
+        t.append(threading.Thread(target=session.start_session))
 
-    fake_server.reply_multi_packet(b'\x02\x00\x03',
-                                   [
-                                       b'\x19\x00\x01\x0fminecraft:brand\x06Purpur',
-                                       b'\x15\x00\x0c\x01\x11minecraft:vanilla',
-                                       b'\x17\x00\x0e\x01\tminecraft\x04core\x041.21',
-                                       b'\n\x00\x04\x00\x00\x00\x00\x02;\xf5G'
-                                   ])
+    for i in t:
+        i.start()
 
-    t = threading.Thread(target=fake_server.start)
-    #t.start()
-
-    session = ProtocolSession(
-        address="localhost",
-        port=25565,
-        protocol_version=767,
-        bot_name="kenftr",
-        timeout=10
-    )
-    session.packet_sniffer(True)
-    session.start_session()
-
-
-    # def _login(self):
-    #     @self.on_packet_event
-    #     def on_packet(packet):
-    #         global inner_buf, data_buf
-    #         offset = 0
-    #         buf = packet
+    # from mclium.api import PacketBuilderWrappedApi
     #
-    #         if not self.is_compress:
-    #             length,offset = Read.read_varint(buf,offset)
-    #             packet_id, offset = Read.read_varint(buf, offset)
-    #         else:
-    #             length,offset = Read.read_varint(buf,offset)
-    #             data_length,offset = Read.read_varint(buf, offset)
-    #             remaining = buf[offset: offset + length]
-    #
-    #             data_start = offset
-    #
-    #             if data_length == 0:
-    #                 inner_buf = buf[data_start:data_start + (length - (data_start))]
-    #                 inner_offset = 0
-    #                 packet_id, inner_offset = Read.read_varint(inner_buf, inner_offset)
-    #                 data_buf = inner_buf
-    #             else:
-    #                 import zlib
-    #                 decompressed = zlib.decompress(remaining)
-    #                 inner_offset = 0
-    #                 packet_id, inner_offset = Read.read_varint(decompressed, inner_offset)
-    #                 data_buf = decompressed
-    #             offset = 0
-    #
-    #
-    #         if self.state == "LOGIN":
-    #             if packet_id == 0x03:
-    #                 threshold, _ = Read.read_varint(buf, offset)
-    #                 self.is_compress = True
-    #                 self.compress_size = threshold
-    #
-    #             elif packet_id == 0x02:
-    #                 login_ack = PacketList.get_login_acknowledged(False,False)
-    #                 self.send_packet(login_ack)
-    #                 self.state = "CONFIG"
-    #
-    #         elif self.state == "CONFIG":
-    #             if packet_id == 0x04:
-    #                 keep_alive_id,inner_offset = Read.read_varint(data_buf, inner_buf)
-    #                 response = PacketList.get_keepalive(keep_alive_id,False,False)
-    #                 self.send_packet(response)
-    #
-    #             elif packet_id == 0x03:
-    #                 finish_ack = b'\x03'
-    #                 self.send_packet(finish_ack)
-    #                 self.state = "PLAY"
-    #
-    #             elif packet_id == 0x01:
-    #                 pass
-    #
-    #     handshake = PacketList.get_handshake_state(
-    #         protocol=self.protocol_version,
-    #         address=self.address,
-    #         port=self.port,
-    #         state=2
-    #     )
-    #     login_start = PacketList.get_login_start(
-    #         name=self.bot_name
-    #     )
-    #     self.send_packet(handshake)
-    #     self.send_packet(login_start)
+    # packet = PacketList.get_keepalive(49950997, False, False)
+    # print(packet.Build())
+    # wrapped = PacketBuilderWrappedApi(packet)
+    # print(wrapped.rebuild_with_compressed(256))
