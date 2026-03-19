@@ -46,7 +46,7 @@ class PacketBuilderWrappedApi:
             packet_length = Encode.EncodeVarInt(len(body))
             return packet_length + body
 
-    def fake_data_length(self,length:int,packet: PacketBuilder):
+    def fake_data_length(self,length:int):
         def _strip_packet_length(packet):
             offset = 0
             _,offset = Read.read_varint(packet,offset)
