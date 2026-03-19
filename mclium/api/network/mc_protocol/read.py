@@ -43,6 +43,16 @@ class Read:
         raise ValueError("VarInt too big")
 
     @staticmethod
+    def read_long(data: bytes, offset: int = 0):
+        import struct
+        if offset + 8 > len(data):
+            raise ValueError("Not enough bytes to read a Long")
+
+        value = struct.unpack('>q', data[offset:offset + 8])[0]
+        offset += 8
+        return value, offset
+
+    @staticmethod
     def read_string(data: bytes, offset: int = 0):
         length, offset = Read.read_varint(data, offset)
 

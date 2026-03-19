@@ -1,4 +1,3 @@
-from mclium.api import Encode
 class Decode:
     @staticmethod
     def DecodeVarInt(data: bytes) -> tuple[int, int]:
@@ -26,6 +25,7 @@ class Decode:
 
     @staticmethod
     def DecodeString(data: bytes) -> tuple[str, int]:
+        from mclium.api import Encode
         length, offset = Encode.DecodeVarInt(data)
 
         end = offset + length

@@ -45,10 +45,22 @@ class PacketList:
         return packet.Build()
 
     @staticmethod
-    def get_login_acknowledged(debug=False):
+    def get_login_acknowledged(debug=False,build=True):
         from mclium.api import PacketBuilder, _Field, PacketFieldType
         packet = PacketBuilder(0x03, debug)
-        return packet.Build()
+        if build:
+            return packet.Build()
+        else:
+            return packet
+
+    @staticmethod
+    def get_acknowledge_finish_configuration(debug=False,build=False):
+        from mclium.api import PacketBuilder, _Field, PacketFieldType
+        packet = PacketBuilder(0x03, debug)
+        if build:
+            return packet.Build()
+        else:
+            return packet
 
     @staticmethod
     def get_finish_config(debug=False):
@@ -57,8 +69,11 @@ class PacketList:
         return packet.Build()
 
     @staticmethod
-    def get_keepalive(keep_id, debug=False):
+    def get_keepalive(keep_id, debug=False,build=False):
         from mclium.api import PacketBuilder, _Field, PacketFieldType
-        packet = PacketBuilder(0x15, debug)
+        packet = PacketBuilder(0x04, debug)
         packet.add_field(_Field(PacketFieldType.LONG, keep_id))
-        return packet.Build()
+        if build:
+            return packet.Build()
+        else:
+            return packet
