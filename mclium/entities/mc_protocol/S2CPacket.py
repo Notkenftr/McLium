@@ -16,6 +16,8 @@ class S2CPacket:
         self.packet_id = None
         self.packet_data = None
 
+        self.is_packet_compressed = False
+
         if auto_parser:
             self._parse()
 
@@ -38,6 +40,7 @@ class S2CPacket:
             else:
                 self.decompressed = zlib.decompress(self.payload)
                 self.inner_offset = 0
+                self.is_packet_compressed = True
                 self.packet_id, self.inner_offset = Read.read_varint(self.decompressed, self.inner_offset)
                 self.packet_data = self.decompressed[self.inner_offset:]
 
@@ -48,6 +51,9 @@ class S2CPacket:
     def get_payload(self) -> bytes:
         """Trả về payload, đã giải nén nếu compressed"""
         return self.packet_data
+
+    def get_is_packet_compressed(self) -> bool:
+        return self.is_compressed
 
     def get_raw_payload(self) -> bytes:
         """Trả về payload gốc (compressed nếu có)"""
@@ -64,3 +70,7 @@ class S2CPacket:
     def get_data_length(self) -> int | None:
         """Trả về độ dài dữ liệu trước khi nén, None nếu non-compressed"""
         return self.data_length
+
+if __name__ == '__main__':
+    data = b'\x03\x80\x02'
+    packet = S2CPacket(data)

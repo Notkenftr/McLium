@@ -23,28 +23,28 @@ class PacketBuilderWrappedApi:
     def __init__(self,packet: PacketBuilder):
         self.packet = packet
 
-    def rebuild_with_compressed(self,threshold):
-        def _strip_packet_length(packet):
-            offset = 0
-            _,offset = Read.read_varint(packet,offset)
+    def rebuild_with_compressed(self, threshold):
+        from mclium.api.network.mc_protocol import Encode
+        import zlib
 
-            return packet[offset:]
+        raw_data = self.packet.build_no_length()
 
-        raw_data = _strip_packet_length(self.packet.get_raw_packet())
-
-        if len(raw_data) < threshold:
+        if threshold <= 0 or len(raw_data) < threshold:
             data_length = Encode.EncodeVarInt(0)
             body = data_length + raw_data
 
-            packet_length = Encode.EncodeVarInt(len(body))
-
-            return packet_length + body
         else:
+
             compressed = zlib.compress(raw_data)
-            data_length = Encode.EncodeVarInt(len(compressed))
+            data_length = Encode.EncodeVarInt(len(raw_data))
+
             body = data_length + compressed
-            packet_length = Encode.EncodeVarInt(len(body))
-            return packet_length + body
+
+        packet_length = Encode.EncodeVarInt(len(body))
+
+        return packet_length + body
+
+
 
     def fake_data_length(self,length:int):
         def _strip_packet_length(packet):

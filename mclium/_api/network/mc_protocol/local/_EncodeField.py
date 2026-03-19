@@ -1,6 +1,7 @@
 from mclium.mclium_types import PacketFieldType
 from mclium.api.network.mc_protocol import Encode
-def _EncodeField(field: "PacketFieldType", debug=False) -> bytes:
+
+def _EncodeField(field, debug=False) -> bytes:
     if field.optional:
         if field.value is None:
             if debug:
@@ -11,36 +12,45 @@ def _EncodeField(field: "PacketFieldType", debug=False) -> bytes:
         prefix = b""
 
     ft = field.field_type
+    value = field.value
 
     if debug:
-        print(f"[Field] Type={ft} Value={field.value}")
+        print(f"[Field] Type={ft} Value={value}")
 
     if ft == PacketFieldType.VARINT:
-        return prefix + Encode.EncodeVarInt(field.value)
+        return prefix + Encode.EncodeVarInt(value)
 
-    if ft == PacketFieldType.STRING:
-        return prefix + Encode.EncodeString(field.value)
+    elif ft == PacketFieldType.STRING:
+        return prefix + Encode.EncodeString(value)
 
-    if ft == PacketFieldType.BOOL:
-        return prefix + Encode.EncodeBool(field.value)
+    elif ft == PacketFieldType.BOOL:
+        return prefix + Encode.EncodeBool(value)
 
-    if ft == PacketFieldType.INT:
-        return prefix + field.value.to_bytes(4, "big", signed=True)
+    elif ft == PacketFieldType.INT:
+        return prefix + Encode.EncodeInt(value)
 
-    if ft == PacketFieldType.UNSIGNED_SHORT:
-        return prefix + field.value.to_bytes(2, "big")
-    if ft == PacketFieldType.LONG:
-        return prefix + field.value.to_bytes(8, "big", signed=True)
-    if ft == PacketFieldType.UUID:
-        if isinstance(field.value, bytes):
-            if len(field.value) != 16:
-                raise ValueError("UUID must be 16 bytes")
-            return prefix + field.value
+    elif ft == PacketFieldType.UNSIGNED_SHORT:
+        return prefix + Encode.EncodeUnsignedShort(value)
 
-        import uuid
-        if isinstance(field.value, uuid.UUID):
-            return prefix + field.value.bytes
+    elif ft == PacketFieldType.LONG:
+        return prefix + Encode.EncodeLong(value)
 
-        raise TypeError("UUID field must be uuid.UUID or 16-byte bytes")
+    elif ft == PacketFieldType.UUID:
+        return prefix + Encode.EncodeUUID(value)
+
+    elif ft == PacketFieldType.FLOAT:
+        return prefix + Encode.EncodeFloat(value)
+
+    elif ft == PacketFieldType.DOUBLE:
+        return prefix + Encode.EncodeDouble(value)
+
+    elif ft == PacketFieldType.BYTE:
+        return prefix + Encode.EncodeByte(value)
+
+    elif ft == PacketFieldType.POSITION:
+        return prefix + Encode.EncodePosition(*value)
+
+    elif ft == PacketFieldType.VARLONG:
+        return prefix + Encode.EncodeVarLong(value)
 
     raise ValueError(f"Unsupported field type: {ft}")
