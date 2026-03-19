@@ -86,4 +86,9 @@ Lưu ý:
 3.6: Overwrite api<br>
 3.7: set hooker<br>
 4. Mc4j<br>
-4.1 What is Mc4J<br>
+4.1: What is Mc4J<br>
+4.2: Connect to Mc4J<br>
+4.3: P2J<br>
+4.4: J2J<br>
+4.5: ProtocolSession with Mc4J<br>
+4.6: Mc4J sandbox<br>
