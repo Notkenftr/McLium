@@ -2,11 +2,12 @@ import zlib
 import hashlib
 import binascii
 
+from enum import Enum
 from mclium.mclium_types import PacketFieldType
 from mclium.api.network.mc_protocol import Read
 from mclium.api.network.mc_protocol import Encode
+from mclium.api.network.mc_protocol.build_hook_at import BuildHookAt
 from mclium._api.network.mc_protocol.local._EncodeField import _EncodeField
-
 class _Field:
     def __init__(
         self,
@@ -70,6 +71,13 @@ class PacketBuilder:
         self.fields_length = []
         self.raw_byte = None
 
+        #hooker
+        self.before_build = []
+        self.before_field_add = []
+        self.after_field_add = []
+        self.before_length_encode = []
+        self.after_length_encode = []
+        self.after_build = []
 
         self.debug = debug
 
@@ -101,6 +109,27 @@ class PacketBuilder:
         if value not in [True, False]:
             raise ValueError("Debug must be True or False")
         self.debug = value
+
+    # build hook
+
+    def set_hooker(self, func, at: BuildHookAt):
+        if at == BuildHookAt.BEFORE_BUILD:
+            self.before_build.append(func)
+
+        elif at == BuildHookAt.BEFORE_FIELD_ADD:
+            self.before_field_add.append(func)
+
+        elif at == BuildHookAt.AFTER_FIELD_ADD:
+            self.after_field_add.append(func)
+
+        elif at == BuildHookAt.BEFORE_LENGTH_ENCODE:
+            self.before_length_encode.append(func)
+
+        elif at == BuildHookAt.AFTER_LENGTH_ENCODE:
+            self.after_length_encode.append(func)
+
+        elif at == BuildHookAt.AFTER_BUILD:
+            self.after_build.append(func)
 
     # insert
     def insert_byte(self, index: int, value: int):
@@ -197,6 +226,10 @@ class PacketBuilder:
     def Build(self) -> bytes:
         if self.packet_id is None:
             raise ValueError("Packet ID is not set")
+
+        for hook in self.before_build:
+            hook(self)
+
         data = bytearray()
 
         if self.debug:
@@ -205,16 +238,34 @@ class PacketBuilder:
         data += Encode.EncodeVarInt(self.packet_id)
 
         for field in self.fields:
+            for hook in self.before_field_add:
+                hook(self, field)
+
             _field = _EncodeField(field, self.debug)
+
+            for hook in self.after_field_add:
+                hook(self, field, _field)
+
             data += _field
             self.fields_length.append(_field)
+
+        for hook in self.before_length_encode:
+            hook(self, data)
 
         packet = Encode.EncodeVarInt(len(data)) + data
         self.length = len(packet)
 
+        for hook in self.after_length_encode:
+            hook(self, packet)
+
         if self.debug:
             print("[PacketBuilder] Raw Packet:", binascii.hexlify(packet).decode())
+
         self.raw_byte = packet
+
+        for hook in self.after_build:
+            hook(self, packet)
+
         return packet
 
     async def async_diff(self,other):
@@ -232,6 +283,10 @@ class PacketBuilder:
     async def async_build(self):
         if self.packet_id is None:
             raise ValueError("Packet ID is not set")
+
+        for hook in self.before_build:
+            hook(self)
+
         data = bytearray()
 
         if self.debug:
@@ -240,14 +295,32 @@ class PacketBuilder:
         data += Encode.EncodeVarInt(self.packet_id)
 
         for field in self.fields:
+            for hook in self.before_field_add:
+                hook(self, field)
+
             _field = _EncodeField(field, self.debug)
+
+            for hook in self.after_field_add:
+                hook(self, field, _field)
+
             data += _field
             self.fields_length.append(_field)
+
+        for hook in self.before_length_encode:
+            hook(self, data)
 
         packet = Encode.EncodeVarInt(len(data)) + data
         self.length = len(packet)
 
+        for hook in self.after_length_encode:
+            hook(self, packet)
+
         if self.debug:
             print("[PacketBuilder] Raw Packet:", binascii.hexlify(packet).decode())
+
         self.raw_byte = packet
+
+        for hook in self.after_build:
+            hook(self, packet)
+
         return packet
