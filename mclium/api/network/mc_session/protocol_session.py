@@ -6,6 +6,7 @@ from mclium.api import PacketBuilderWrappedApi
 from mclium.api import PacketList
 from mclium.api.network.mc_protocol import Read
 from mclium.api import PacketBuilder
+from mclium.api import _Field,PacketFieldType
 from mclium.api.network.entities.S2C import S2CPacket
 
 
@@ -39,6 +40,8 @@ class ProtocolSession:
 
         self.current_packet = None
         self.packet_handlers = []
+        self.send_after = []
+        self.on_start_handle = []
         self.packet_ignore_map = {}
         self.packet_whitelist_map = {}
 
@@ -47,8 +50,37 @@ class ProtocolSession:
 
         self.is_packet_sniffer = False
         self.is_running = False
+        self.start_recv_at = 0
+
 
         self.state = "LOGIN"
+
+    def _packet_handle(self, data):
+        packet_list = []
+        offset = 0
+
+        while offset < len(data):
+            try:
+                packet_length, length_varint_size = Read.read_varint(data, offset)
+
+                if offset + length_varint_size + packet_length > len(data):
+                    break
+
+                packet_start = offset + length_varint_size
+                packet_end = packet_start + packet_length
+
+                raw_packet = data[packet_start:packet_end]
+                packet_list.append(raw_packet)
+
+                offset = packet_end
+
+            except Exception as e:
+                print(e)
+                break
+
+        return packet_list
+
+
 
     def _recv_packet(self):
         while True:
@@ -62,7 +94,7 @@ class ProtocolSession:
                     s2c = S2CPacket(data,False,True)
 
                 if self.is_packet_sniffer:
-                    print(f"[S2C] packet id: {s2c.packet_id} {"(compressed)" if s2c.get_is_packet_compressed() else "(uncompressed)"} packet length {s2c.packet_length} packet data: {s2c.get_raw_payload()}")
+                    print(f"[S2C] packet id: {s2c.packet_id} {"(compressed)" if s2c.get_is_packet_compressed() else "(uncompressed)"} packet length {s2c.packet_length} packet raw: {data}")
 
                 packet_id = s2c.get_packet_id()
 
@@ -86,8 +118,6 @@ class ProtocolSession:
             if self.is_compress:
                 wrapped = PacketBuilderWrappedApi(packet)
                 compressed_bytes = wrapped.rebuild_with_compressed(self.compress_size)
-                print(raw)
-                print(compressed_bytes)
                 self.sock.sendall(compressed_bytes)
 
                 if self.is_packet_sniffer:
@@ -115,6 +145,8 @@ class ProtocolSession:
 
         return decorator
     def packet_whitelist(self, packet_id):
+        if packet_id == 0x14:
+            pass
         def decorator(func):
             self.packet_whitelist_map.setdefault(packet_id, []).append(func)
             return func
@@ -127,6 +159,8 @@ class ProtocolSession:
     def on_packet_event(self,func):
         self.packet_handlers.append(func)
 
+    def on_start(self,func):
+        self.on_start_handle.append(func)
 
     def _start_login(self):
 
@@ -137,7 +171,6 @@ class ProtocolSession:
                 threshold,_ = Read.read_varint(packet.get_payload(),0)
                 self.is_compress = True
                 self.compress_size = threshold
-                print(threshold)
 
         @self.on_packet_event
         @self.packet_whitelist(0x02)
@@ -156,6 +189,37 @@ class ProtocolSession:
                 keep_alive_id, offset = Read.read_long(payload, offset)
                 response = PacketList.get_keepalive(keep_alive_id, False, False)
                 self.send_packet(response)
+
+        @self.on_packet_event
+        @self.packet_whitelist(14)
+        def client_info_handle(packet: S2CPacket):
+            print("trigger id 14")
+            if self.state == "CONFIG":
+                client_information = PacketBuilder(0x00)
+                client_information.add_field(_Field(PacketFieldType.STRING, "en_us"))
+                client_information.add_field(_Field(PacketFieldType.BYTE, 12))
+                client_information.add_field(_Field(PacketFieldType.VARINT, 0))
+                client_information.add_field(_Field(PacketFieldType.BOOL, True))
+                client_information.add_field(_Field(PacketFieldType.UNSIGNED_BYTE, 0x7F))
+                client_information.add_field(_Field(PacketFieldType.VARINT, 0))
+                client_information.add_field(_Field(PacketFieldType.BOOL, False))
+                client_information.add_field(_Field(PacketFieldType.BOOL, True))
+
+                client_branch = PacketBuilder(0x2)
+                client_branch.add_field(_Field(PacketFieldType.STRING, "minecraft:brand"))
+                client_branch.add_field(_Field(PacketFieldType.STRING, "fabric"))
+
+                self.send_packet(client_branch)
+                self.send_packet(client_information)
+
+
+        @self.on_packet_event
+        @self.packet_whitelist(3)
+        def finish_config_handle(packet: S2CPacket):
+            if self.state == "CONFIG":
+                finish_ack = PacketList.get_acknowledge_finish_configuration()
+                self.send_packet(finish_ack)
+                self.state = "PLAY"
 
         handshake = PacketList.get_handshake_state(
             protocol=self.protocol_version,
@@ -179,34 +243,65 @@ class ProtocolSession:
         self.is_running = True
         thread = threading.Thread(target=self._recv_packet, daemon=False)
         thread.start()
-
+        self.start_recv_at = time.time()
         self._start_login()
         thread.join()
 
 if __name__ == '__main__':
-    import random
-    sessions = [
-        ProtocolSession(
+    from mclium.api.network.fake_server.fake_server import FakeServer
+
+    # fake_server = FakeServer(
+    #     "localhost",
+    #     25566
+    # )
+    # fake_server.reply_multi_packet( b'\x19\x00\x07kenftr_\x93\x8aQ\x8a\xa1\x0eL\x02\xab\xc1\xb5q\x1c\xb1\x0f\xee',
+    #                                 [
+    #                                     b'\x03\x03\x80\x02',
+    #                                     b'\x1c\x00\x02\xb5\x00\xaf\xf4`\x103a\xa0\x90\xfe\xad\xb2Q$=\x07kenftr_\x00\x01'
+    #                                 ])
+    # fake_server.reply_multi_packet(b'\x02\x00\x03',
+    #                                [
+    #                                    b'\x19\x00\x01\x0fminecraft:brand\x06Purpur',
+    #                                    b'\x15\x00\x0c\x01\x11minecraft:vanilla\x17\x00\x0e\x01\tminecraft\x04core\x041.21'
+    #                                ])
+    # fake_server.start()
+
+    session = ProtocolSession(
             address="localhost",
             port=25565,
             protocol_version=767,
-            bot_name=str(random.randint(0, 255)),
+            bot_name="kenftr_",
             timeout=10
         )
-        for _ in range(500)  # số bot
-    ]
-
-    t = []
-
-    for session in sessions:
-        t.append(threading.Thread(target=session.start_session))
-
-    for i in t:
-        i.start()
-
-    # from mclium.api import PacketBuilderWrappedApi
+    session.packet_sniffer(True)
+    session.start_session()
     #
-    # packet = PacketList.get_keepalive(49950997, False, False)
-    # print(packet.Build())
-    # wrapped = PacketBuilderWrappedApi(packet)
-    # print(wrapped.rebuild_with_compressed(256))
+    # client_information = PacketBuilder(0x00)
+    # client_information.add_field(_Field(PacketFieldType.STRING, "en_us"))
+    # client_information.add_field(_Field(PacketFieldType.BYTE, 12))
+    # client_information.add_field(_Field(PacketFieldType.VARINT, 0))
+    # client_information.add_field(_Field(PacketFieldType.BOOL, True))
+    # client_information.add_field(_Field(PacketFieldType.UNSIGNED_BYTE, 0x7F))
+    # client_information.add_field(_Field(PacketFieldType.VARINT, 0))
+    # client_information.add_field(_Field(PacketFieldType.BOOL, False))
+    # client_information.add_field(_Field(PacketFieldType.BOOL, True))
+    # print(PacketBuilderWrappedApi(client_information).rebuild_with_compressed(256))
+
+
+# # [C2S] b'\x10\x00\xff\x05\tlocalhostc\xdd\x02'
+# # [C2S] b'\x19\x00\x07kenftr_\xf7\xcbM\xe6\x0fj15\x80\x00V\x18\x02\xe2\xe0)'
+# # raw data: b'\x03\x03\x80\x02'
+# # [S2C] packet id: 3 (uncompressed) packet length 3 packet data: b'\x03\x80\x02'
+# # raw data: b'\x1c\x00\x02\xb5\x00\xaf\xf4`\x103a\xa0\x90\xfe\xad\xb2Q$=\x07kenftr_\x00\x01'
+# # [S2C] packet id: 2 (compressed) packet length 28 packet data: b'\x02\xb5\x00\xaf\xf4`\x103a\xa0\x90\xfe\xad\xb2Q$=\x07kenftr_\x00\x01'
+# # [C2S] (compressed) b'\x02\x00\x03'
+# # raw data: b'\x19\x00\x01\x0fminecraft:brand\x06Purpur'
+# # [S2C] packet id: 1 (compressed) packet length 25 packet data: b'\x01\x0fminecraft:brand\x06Purpur'
+# # raw data: b'\x15\x00\x0c\x01\x11minecraft:vanilla'
+# # [S2C] packet id: 12 (compressed) packet length 21 packet data: b'\x0c\x01\x11minecraft:vanilla'
+# # raw data: b'\x17\x00\x0e\x01\tminecraft\x04core\x041.21'
+# # [S2C] packet id: 14 (compressed) packet length 23 packet data: b'\x0e\x01\tminecraft\x04core\x041.21'
+#
+#
+# # client config: b'\x0f\x00\x00\x05en_us\x0c\x00\x01\x7f\x01\x00\x01'
+# # client config: b'\x0f\x00\x00\x05en_us\x0c\x00\x01\x7f\x00\x00\x01'

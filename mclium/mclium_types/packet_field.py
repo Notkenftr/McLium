@@ -8,4 +8,8 @@ class PacketFieldType(Enum):
     BOOL = "bool"
     UUID = "uuid"
     UNSIGNED_SHORT = "unsigned_short"
+    UNSIGNED_BYTE = "unsigned_byte"
     LONG = "long"
+    BYTE = "byte"
+    FLOAT = "float"
+    DOUBLE = "double"

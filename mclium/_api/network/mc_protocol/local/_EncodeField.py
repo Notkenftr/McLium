@@ -2,14 +2,7 @@ from mclium.mclium_types import PacketFieldType
 from mclium.api.network.mc_protocol import Encode
 
 def _EncodeField(field, debug=False) -> bytes:
-    if field.optional:
-        if field.value is None:
-            if debug:
-                print("[Field] Optional = False")
-            return Encode.EncodeBool(False)
-        prefix = Encode.EncodeBool(True)
-    else:
-        prefix = b""
+    prefix = b""  # ignore optional prefix for most serverbound packets
 
     ft = field.field_type
     value = field.value
@@ -18,39 +11,32 @@ def _EncodeField(field, debug=False) -> bytes:
         print(f"[Field] Type={ft} Value={value}")
 
     if ft == PacketFieldType.VARINT:
-        return prefix + Encode.EncodeVarInt(value)
-
-    elif ft == PacketFieldType.STRING:
-        return prefix + Encode.EncodeString(value)
-
-    elif ft == PacketFieldType.BOOL:
-        return prefix + Encode.EncodeBool(value)
-
-    elif ft == PacketFieldType.INT:
-        return prefix + Encode.EncodeInt(value)
-
-    elif ft == PacketFieldType.UNSIGNED_SHORT:
-        return prefix + Encode.EncodeUnsignedShort(value)
-
-    elif ft == PacketFieldType.LONG:
-        return prefix + Encode.EncodeLong(value)
-
-    elif ft == PacketFieldType.UUID:
-        return prefix + Encode.EncodeUUID(value)
-
-    elif ft == PacketFieldType.FLOAT:
-        return prefix + Encode.EncodeFloat(value)
-
-    elif ft == PacketFieldType.DOUBLE:
-        return prefix + Encode.EncodeDouble(value)
-
+        data = Encode.EncodeVarInt(value)
+    elif ft == PacketFieldType.UNSIGNED_BYTE:
+        data = Encode.EncodeUnsignedByte(value)
     elif ft == PacketFieldType.BYTE:
-        return prefix + Encode.EncodeByte(value)
-
+        data = Encode.EncodeByte(value)
+    elif ft == PacketFieldType.STRING:
+        data = Encode.EncodeString(value)
+    elif ft == PacketFieldType.BOOL:
+        data = Encode.EncodeBool(value)
+    elif ft == PacketFieldType.INT:
+        data = Encode.EncodeInt(value)
+    elif ft == PacketFieldType.UNSIGNED_SHORT:
+        data = Encode.EncodeUnsignedShort(value)
+    elif ft == PacketFieldType.LONG:
+        data = Encode.EncodeLong(value)
+    elif ft == PacketFieldType.UUID:
+        data = Encode.EncodeUUID(value)
+    elif ft == PacketFieldType.FLOAT:
+        data = Encode.EncodeFloat(value)
+    elif ft == PacketFieldType.DOUBLE:
+        data = Encode.EncodeDouble(value)
     elif ft == PacketFieldType.POSITION:
-        return prefix + Encode.EncodePosition(*value)
-
+        data = Encode.EncodePosition(*value)
     elif ft == PacketFieldType.VARLONG:
-        return prefix + Encode.EncodeVarLong(value)
+        data = Encode.EncodeVarLong(value)
+    else:
+        raise ValueError(f"Unsupported field type: {ft}")
 
-    raise ValueError(f"Unsupported field type: {ft}")
+    return prefix + data

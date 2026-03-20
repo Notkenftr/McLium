@@ -1,23 +1,17 @@
 import zlib
 
 from mclium.api import Read,Encode,Decode
+
 if __name__ == '__main__':
-    data = b'\n\x00\x04\x00\x00\x00\x00\x02{3\x1f'
-
+    data = [
+        b'\x10\x00\xff\x05\tlocalhostc\xde\x02',
+        b'\x19\x00\x07kenftr_\x93\x8aQ\x8a\xa1\x0eL\x02\xab\xc1\xb5q\x1c\xb1\x0f\xee',
+        b'\x02\x00\x03\x19\x00\x02\x0fminecraft:brand\x06fabric\x0f\x00\x00\x05en_us\x0c\x00\x01\x7f\x01\x00\x01',
+    ]
+    parser = b'\x02\x00\x02\x0fminecraft:brand\x06fabric'
     offset = 0
-
-    packet_length,offset = Read.read_varint(data,offset)
-    data_length,offset = Read.read_varint(data,offset)
-    payload = data[offset:offset+packet_length]
-
-    if data_length == 0:
-        inner_offset = 0
-        packet_id,offset = Read.read_varint(payload,inner_offset)
-        packet_data = payload[inner_offset:]
-        print(packet_data)
-    else:
-        inner_offset = 0
-        decompressed_data = zlib.decompress(payload)
-        packet_id,offset = Read.read_varint(decompressed_data,inner_offset)
-        packet_data = decompressed_data[inner_offset:]
-        print(packet_id)
+    packet_length, offset = Read.read_varint(parser, offset)
+    print(packet_length)
+    packet_length,offset = Read.read_varint(parser, offset)
+    packet_id,offset = Read.read_varint(parser, offset)
+    print(packet_id)

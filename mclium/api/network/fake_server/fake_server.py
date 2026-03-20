@@ -25,6 +25,7 @@ class FakeServer:
                 data = client_sock.recv(8*1024*1024)
                 if not data:
                     break
+                print(data)
 
                 if data in self.auto_reply:
                     reply = self.auto_reply[data]
