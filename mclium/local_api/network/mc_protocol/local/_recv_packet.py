@@ -1,5 +1,5 @@
 import socket
-from mclium.api.network.entities.S2C import S2CPacket
+from mclium.api.network.protocol_entities.S2C import S2CPacket
 # def _recv_packet(self):
 #     while True:
 #         try:

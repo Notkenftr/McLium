@@ -7,18 +7,8 @@ from mclium.mclium_types import PacketFieldType
 from mclium.api.network.mc_protocol import Read
 from mclium.api.network.mc_protocol import Encode
 from mclium.api.network.mc_protocol.build_hook_at import BuildHookAt
-from mclium._api.network.mc_protocol.local._EncodeField import _EncodeField
-class _Field:
-    def __init__(
-        self,
-        field_type: PacketFieldType,
-        value=None,
-        optional: bool = False
-    ):
-        self.field_type = field_type
-        self.value = value
-        self.optional = optional
-
+from mclium.local_api.network.mc_protocol.local._EncodeField import _EncodeField
+from mclium.api.network.protocol_entities._Field import _Field
 class PacketBuilderWrappedApi:
     def __init__(self,packet: PacketBuilder):
         self.packet = packet

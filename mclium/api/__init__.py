@@ -1,7 +1,8 @@
 # network
 from .network.mc_protocol.packet_builder import PacketFieldType
 from .network.mc_protocol.packet_flow import PacketFlow
-from .network.mc_protocol.packet_builder import PacketFieldType,PacketBuilder,PacketBuilderWrappedApi,_Field
+from .network.mc_protocol.packet_builder import PacketFieldType,PacketBuilder,PacketBuilderWrappedApi
+from .network.protocol_entities._Field import _Field
 from .network.mc_protocol.packet_list import PacketList
 
 from .network.mc_protocol.encode import Encode

@@ -7,15 +7,8 @@ from mclium.api import PacketList
 from mclium.api.network.mc_protocol import Read
 from mclium.api import PacketBuilder
 from mclium.api import _Field,PacketFieldType
-from mclium.api.network.entities.S2C import S2CPacket
+from mclium.api.network.protocol_entities.S2C import S2CPacket
 
-
-# api method
-# recv
-# send_packet
-# on_packet_event
-# packet sniffer
-# start
 
 class ProtocolSession:
     def __init__(self,
