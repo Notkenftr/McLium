@@ -45,7 +45,7 @@ class SubCommandModule(ABC):
             )
 
         self.sub.set_defaults(_callback=self._entry)
-
+#
     def _entry(self, args):
         self.on_command(args)
         self._interactive_loop()
