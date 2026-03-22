@@ -6,7 +6,7 @@
 
 **McLium is developed strictly for educational purposes and authorized security research only.**
 ---
-# 📦 McLimum Protocol 
+# 📦 McLium Protocol API 
 <p align="center">
     <img src="docs/assets/mclium_protocol_layer_api.png" width="900">
 </p>
