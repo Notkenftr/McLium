@@ -19,7 +19,7 @@ Core features include:
 ---
 # 📦 McLimum Protocol 
 <p align="center">
-    <img src="docs/assets/mclium_protocol_layer_api.png" width="500">
+    <img src="docs/assets/mclium_protocol_layer_api.png" width="900">
 </p>
 
 ---
