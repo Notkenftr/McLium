@@ -1,7 +1,7 @@
 # 📦 McLium
 
 <p align="center">
-  <img src="docs/assets/mclium_logo.png" width="500">
+  <img src="docs/assets/mclium_logo.png" width="900">
 </p>
 
 **McLium** is a penetration testing tool designed for analyzing and assessing the security of Minecraft server environments.
