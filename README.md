@@ -16,6 +16,11 @@ Core features include:
 > Protocol-level testing<br>
 
 **McLium is developed strictly for educational purposes and authorized security research only.**
+---
+# 📦 McLimum Protocol 
+<p align="center">
+    <img src="docs/assets/mclium_protocol_layer_api.png" width="500">
+</p>
 
 ---
 # 📄 Documentation
