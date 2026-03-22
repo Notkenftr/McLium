@@ -1,19 +1,8 @@
 # 📦 McLium
 
 <p align="center">
-  <img src="docs/assets/mclium_logo.png" width="900">
+  <img src="docs/assets/McLium_header_readme.png" width="1920">
 </p>
-
-**McLium** is a penetration testing tool designed for analyzing and assessing the security of Minecraft server environments.
-
-It provides a set of powerful built-in utilities along with an extendable plugin capability, allowing users to perform network inspection, protocol interaction, and controlled stress testing.
-
-Additionally, McLium offers low-level packet crafting capabilities, giving users near - complete control over packet structure - from modifying individual bytes to constructing fully custom and non - compliant packets - enabling advanced testing scenarios such as protocol fuzzing, malformed packet injection, and boundary manipulation.
-Core features include:  
-> Port scanning <br>
-> UDP/TCP flood simulation<br>
-> Network behavior analysis<br>
-> Protocol-level testing<br>
 
 **McLium is developed strictly for educational purposes and authorized security research only.**
 ---
