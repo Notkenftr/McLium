@@ -53,5 +53,6 @@ python -m venv .venv
 ```bash
 python Mclium.py --help
 ```
+[!star_history](https://www.star-history.com/?repos=Notkenftr%2FMcLium&type=date&legend=top-left)
 
 **McLium breaks your limits**
