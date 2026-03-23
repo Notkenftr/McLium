@@ -11,6 +11,11 @@
     <img src="docs/assets/mclium_protocol_layer_api.png" width="900">
 </p>
 
+<p align="center">
+    <img src="docs/assets/McLium_protocol_flow.png" width="900">
+</p>
+
+
 ---
 # 📄 Documentation
 
