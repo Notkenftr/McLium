@@ -32,7 +32,7 @@ Lưu ý:
 1.3: SubCommandModule<br>
 1.4: SubCommandOneLineModule
 1.5: McLiumTaskModule<br>
-2. How to using L3McProtocol<br>
+2. How to using McLium.api.packet<br>
 2.1: PacketStructure<br>
 2.2: PacketList<br>
 2.4: How to make a custom packet with L3PacketBuilder<br>
@@ -40,17 +40,17 @@ Lưu ý:
 3.1: What is ProtocolSession<br>
 3.2: Server connection process<br>
 3.3: Connect to the server<br>
-3.4: Sending Packet with L3PacketBuilder<br>
+3.4: Sending Packet with PacketList<br>
 3.5: Auto Session Lifecycle<br>
 3.6: Handling Event<br>
 
 ### Nếu bạn muốn tùy chỉnh sâu hơn thì có thể đọc qua theo trình tự này (Toàn bộ file docs đều được đặt trong ``./vietnamese/Intermediate``):<br>
-1. How to using L2 McProtocol<br>
+1. How to using Mc4p.protocol<br>
 1.2: _Field and ProtocolFieldType<br>
 1.3: Craft your packet<br>
-1.4: L2PacketBuilderWrappedApi<br>
+1.4: PacketBuilderWrappedApi<br>
 1.5: How to using PacketFlow<br>
-2. How to using L2ProtocolSession<br>
+2. How to using ProtocolSession<br>
 2.1: Create your first login process.<br>
 2.2: Auto Session Lifecycle<br>
 2.3: Receiving Packet<br>
@@ -59,7 +59,7 @@ Lưu ý:
 
 ### Nếu bạn đã thông thạo L3 và L2 mà cũng muốn có khả năng tùy biến sâu hơn thì hãy đến với L1.
 **Lưu ý:** L1 được thiết kế để pentest, custom packet v.v. bạn có thể craft packet v.v bằng L1 và send bằng các api ở tầng cao hơn như L2 L3. Để sử dụng L1 bạn cần hiểu rõ Minecraft java protocol vì đó là nền tảng để bạn có thể craft các custom packet.
-1. L1 McProtocol<br>
+1. AokoPacketApi<br>
 1.1: utils api / getter<br>
 1.2: setter<br>
 1.3: insert byte<br>
@@ -72,7 +72,7 @@ Lưu ý:
 1.12: encode field hooker<br>
 1.13: field length<br>
 1.14: inject bytearray to index<br>
-2. L1PacketBuilderWrappedApi<br>
+2. AokoWrappedApi.v1<br>
 2.1: Custom your length<br>
 2.2: rebuild<br>
 2.3: fake field<br>
@@ -85,10 +85,3 @@ Lưu ý:
 3.5: Change to Play State<br>
 3.6: Overwrite api<br>
 3.7: set hooker<br>
-4. Mc4j<br>
-4.1: What is Mc4J<br>
-4.2: Connect to Mc4J<br>
-4.3: P2J<br>
-4.4: J2J<br>
-4.5: ProtocolSession with Mc4J<br>
-4.6: Mc4J sandbox<br>

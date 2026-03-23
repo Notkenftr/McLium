@@ -63,6 +63,7 @@ class SubCommandModule(ABC):
 
             if command:
                 self.interactive(command)
+
     @abstractmethod
     def on_command(self, args):
         pass
