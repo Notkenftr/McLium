@@ -1,6 +1,8 @@
 import os.path
 import time
 
+from scapy.packet import Raw
+
 from mclium.api import SubCommandModule
 from mclium.mclium_types import Flag
 from plugins.packet_capture.find_process import find_process
@@ -43,7 +45,6 @@ class Main(SubCommandModule):
             pid, raddr, laddr = find_process(address, port)
 
             if raddr is not None:
-                print(f"[PacketCapture] {laddr} -> {raddr} ({pid})")
                 break
 
         def match(pkt):
@@ -76,21 +77,25 @@ class Main(SubCommandModule):
             return False
 
         def handle(pkt):
-            if IP in pkt and TCP in pkt:
-                dst_ip = pkt[IP].dst
-                src_ip = pkt[IP].src
+            if pkt.haslayer(Raw):
 
-                dst_port = pkt[TCP].dport
+                src_ip = pkt[IP].src
                 src_port = pkt[TCP].sport
 
-                print(f"From {src_ip}:{src_port} -> To {dst_ip}:{dst_port}")
+                direction = "S2C"
 
-                raw = bytes(pkt)
-                print(raw)
+                if src_ip == address and src_port == port:
+                    direction = "S2C"
+                else:
+                    direction = "C2S"
 
+                raw_payload = pkt[Raw].load
+                formatted_data = repr(raw_payload)
+                print(f"[PacketCapture] {formatted_data}")
                 if output_file:
-                    with open(output_file, 'ab') as f:
-                        f.write(raw + b'\n')
+                    with open(output_file, 'a') as f:
+                        f.write(f"{direction} > {formatted_data}\n")
+
 
 
         sniff(filter="tcp",prn=handle,lfilter=match)
