@@ -82,8 +82,6 @@ class Main(SubCommandModule):
                 src_ip = pkt[IP].src
                 src_port = pkt[TCP].sport
 
-                direction = "S2C"
-
                 if src_ip == address and src_port == port:
                     direction = "S2C"
                 else:
