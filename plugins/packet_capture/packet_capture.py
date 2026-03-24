@@ -1,6 +1,5 @@
 import os.path
-import time
-
+from datetime import datetime
 from scapy.packet import Raw
 
 from mclium.api import SubCommandModule
@@ -30,6 +29,12 @@ class Main(SubCommandModule):
                 '--output',
                 type=str,
                 default=None,
+            ),
+            Flag(
+                '-sd',
+                '--show_direction',
+                type=bool,
+                default=True,
             )
         ]
         super().__init__(name='packet_capture',flags=flags)
@@ -40,6 +45,10 @@ class Main(SubCommandModule):
         output_file = os.path.expanduser(args.output)
         print("[PacketCapture] waiting for packet")
         print(f"[PacketCapture] Save at {output_file}")
+
+        with open(output_file,'a') as f:
+            f.write("McLium Packet Capture\n"
+                    f"Capture at: {datetime.now()}\n\n")
 
         while True:
             pid, raddr, laddr = find_process(address, port)
@@ -88,12 +97,13 @@ class Main(SubCommandModule):
                     direction = "C2S"
 
                 raw_payload = pkt[Raw].load
-                formatted_data = repr(raw_payload)
-                print(f"[PacketCapture] {formatted_data}")
+                print(f"[PacketCapture] {repr(raw_payload)}")
                 if output_file:
                     with open(output_file, 'a') as f:
-                        f.write(f"{direction} > {formatted_data}\n")
-
+                        if args.show_direction:
+                            f.write(f"{direction} > {repr(raw_payload)}\n")
+                        else:
+                            f.write(f"{repr(raw_payload)}\n")
 
 
         sniff(filter="tcp",prn=handle,lfilter=match)
