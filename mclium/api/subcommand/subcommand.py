@@ -53,7 +53,7 @@ class SubCommandModule(ABC):
     def _interactive_loop(self):
         while True:
             command = self.console.input(
-                f"[bold cyan]McLium[/bold cyan] - (mclium/{self.name}) >> "
+                f"[bold cyan]McLium[/bold cyan][bold red]/[/bold red][bold cyan]{self.name}[/bold cyan] >> "
             )
             command = command.strip()
 

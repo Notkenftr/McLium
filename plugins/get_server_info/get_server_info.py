@@ -60,7 +60,7 @@ class Main(SubCommandModule):
 
         try:
             while True:
-                data = sock.recv(1024)
+                data = sock.recv(16 * 1024 * 1024)
                 if not data:
                     continue
                 print(data)
