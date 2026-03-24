@@ -1,0 +1,11 @@
+main: 'packet_capture.Main'
+name: "packet_capture"
+description: "Packet Capture"
+version: 1.0.0
+author: ["kenftr"]
+
+require_libraries: ['psutil']
+
+depend: []
+softdepend: []
+
