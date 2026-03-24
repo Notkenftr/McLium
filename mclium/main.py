@@ -1,4 +1,6 @@
 import argparse
+
+import mclium
 from mclium.context import Context
 from mclium.load_plugin import load
 
@@ -19,7 +21,8 @@ def entry_point():
     console.print(r"/_/  /_/\___/_____/_/\__,_/_/ /_/ /_/ ")
     time.sleep(0.1)
     console.print("\n")
-    console.print(r"McLium by @kenftr")
+    console.print(r"McLium by @kenftr\n")
+    console.print(f"Version: 0.3.1")
     console.print("\n")
 
 
@@ -57,9 +60,8 @@ def entry_point():
                 parser.print_help()
 
         except KeyboardInterrupt:
-            print()
-            continue
+            print("Bye.")
+            break
 
-        except Exception as e:
-            print("Error:", e)
+        except:
             continue
