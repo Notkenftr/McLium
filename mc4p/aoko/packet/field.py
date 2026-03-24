@@ -1,6 +1,6 @@
 from mc4p.aoko import Encode
 
-class Field:
+class AokoFieldBuild:
     @staticmethod
     def varInt(value: int) -> bytes:
         return Encode.EncodeVarInt(value)

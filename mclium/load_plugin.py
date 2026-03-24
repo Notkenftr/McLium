@@ -1,8 +1,12 @@
 import os
+import subprocess
+
 import yaml
 from mclium import Path
 import sys
 import importlib.util
+from importlib.metadata import distributions
+
 plugin_dir = Path.getPluginsPath()
 
 
@@ -17,20 +21,43 @@ class PluginYml:
         self.version = str(self.data.get('version', "1.0"))
         self.author = self.data.get('author', [])
 
+        self.require_libraries = self.data.get('require_libraries', [])
+
         self.depend = self.data.get('depend', [])
         self.softdepend = self.data.get('softdepend', [])
+
 
     def _read(self):
         with open(self.yml_path, "r") as f:
             return yaml.safe_load(f)
 
 
+def _read_cache():
+    cache_file = os.path.join(Path.getRootPath(), '.cache', 'installed.txt')
+
+    if not os.path.exists(cache_file):
+        return set()
+
+    with open(cache_file) as f:
+        return set(line.strip() for line in f if line.strip())
+
+def _write_cache(packages):
+    cache_file = os.path.join(Path.getRootPath(), '.cache', 'installed.txt')
+
+    with open(cache_file, 'a') as f:
+        for pkg in packages:
+            f.write(pkg + "\n")
 
 def load():
+    global plugin_yml
     import types
 
     plugins = {}
     loaded = set()
+
+    print("[PLuginLoader] Checking installed libs...")
+
+    installed_libs = set()
 
     for folder in os.listdir(plugin_dir):
         pl_path = os.path.join(plugin_dir, folder)
@@ -43,6 +70,18 @@ def load():
 
         plugin_yml = PluginYml(yml_path)
         plugins[plugin_yml.name] = (plugin_yml, pl_path)
+
+    for name, (plugin_yml, _) in plugins.items():
+        for lib in plugin_yml.require_libraries:
+            if lib not in installed_libs:
+                print(f"[PluginLoader] Installing lib: {lib}")
+
+                subprocess.call([sys.executable, '-m', 'pip', 'install', lib,'-t',f'{os.path.join(Path.getRootPath(),'libraries')}'],
+                                stdout=subprocess.DEVNULL,
+                                stderr=subprocess.DEVNULL)
+
+                installed_libs.add(lib)
+                _write_cache(lib)
 
     changed = True
 
