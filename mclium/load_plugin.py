@@ -55,9 +55,6 @@ def load():
     plugins = {}
     loaded = set()
 
-    print("[PLuginLoader] Checking installed libs...")
-
-    installed_libs = set()
 
     for folder in os.listdir(plugin_dir):
         pl_path = os.path.join(plugin_dir, folder)
@@ -71,6 +68,10 @@ def load():
         plugin_yml = PluginYml(yml_path)
         plugins[plugin_yml.name] = (plugin_yml, pl_path)
 
+    print("[PLuginLoader] Checking installed libs...")
+
+    installed_libs = _read_cache()
+
     for name, (plugin_yml, _) in plugins.items():
         for lib in plugin_yml.require_libraries:
             if lib not in installed_libs:
@@ -81,7 +82,8 @@ def load():
                                 stderr=subprocess.DEVNULL)
 
                 installed_libs.add(lib)
-                _write_cache(lib)
+                _write_cache([lib])
+    print("[PluginLoader] ok.")
 
     changed = True
 

@@ -1,6 +1,4 @@
 import argparse
-
-import mclium
 from mclium.context import Context
 from mclium.load_plugin import load
 
@@ -38,7 +36,10 @@ def entry_point():
     console.print()
     console.print(f"[bold green]Loaded {len(loaded_plugin)} plugins[/bold green]\n")
     for plugin in loaded_plugin:
+        if plugin.lower() == 'example':
+            continue
         console.print(f"[cyan]•[/cyan] {plugin}")
+
     while True:
         try:
             console.rule()
