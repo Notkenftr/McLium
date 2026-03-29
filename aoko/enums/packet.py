@@ -13,6 +13,8 @@ class AokoPacketFieldType(Enum):
     FLOAT = "float"
     DOUBLE = "double"
 
+    AokoRAWBYTE = 'aokorawbyte'
+
 class AokoPacketBuildMode(Enum):
     BYTEARRAY = "bytearray"
     BYTEPLUS = "byteplus"
