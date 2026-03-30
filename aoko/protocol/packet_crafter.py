@@ -7,10 +7,12 @@ from aoko.codecs.field_encode import _encode_field
 class AokoPacketCrafter:
     def __init__(self,
                  auto_reset: bool =False,
+                 enable_safe_check : bool = True,
                  debug: bool = False):
 
 
         self.reset = auto_reset
+        self.enable_safe_check = enable_safe_check
         self.debug = debug
         self.fields = bytearray()
         self.full_packet_data = bytearray()
@@ -44,6 +46,13 @@ class AokoPacketCrafter:
             func(*args,**kwargs)
         else:
             func()
+
+    def _safe_check(self):
+        if not self.enable_safe_check:
+            return True
+        if self.packet_id is None:
+            raise Exception("Packet ID is required. Please use set_packet_id()")
+        return True
 
     def clean(self):
         self.payload = bytearray()
@@ -99,6 +108,7 @@ class AokoPacketCrafter:
         if clean_data_on_build:
             self.clean()
 
+        self._safe_check()
 
         # load hooker at before build
 
