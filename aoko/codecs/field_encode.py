@@ -1,11 +1,14 @@
 from aoko.codecs.encode import Encode
 from aoko.enums.packet import AokoPacketFieldType
 
-def _encode_field(field,debug=False):
+def _encode_field(field,func=None,debug=False):
     prefix = b""
 
     ft = field.field_type
     value = field.value
+
+    if func:
+        func(prefix,ft,value)
 
     if debug:
         print(f"[Field] Type={ft} Value={value}")

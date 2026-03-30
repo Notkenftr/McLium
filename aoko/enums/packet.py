@@ -13,16 +13,21 @@ class AokoPacketFieldType(Enum):
     FLOAT = "float"
     DOUBLE = "double"
 
-    AokoRAWBYTE = 'aokorawbyte'
+    _AOKORAWBYTE = "aokorawbyte"
 
 class AokoPacketBuildMode(Enum):
     BYTEARRAY = "bytearray"
     BYTEPLUS = "byteplus"
 
 class AokoPacketHooker(Enum):
-    HEAD = "head"
+    BEFORE_BUILD = "before_build"
+    BEFORE_PACKET_ID_ENCODE = "before_packet_id_encode"
+    AFTER_PACKET_ID_ENCODE = "after_packet_id_encode"
+    BEFORE_ENCODE_FIELD = "on_encode_field"
     AFTER_ENCODE_FIELD = "after_encode_field"
-    TAIL = "tail"
+    BEFORE_PACKET_LENGTH_ENCODE = "before_packet_length_encode"
+    AFTER_PACKET_LENGTH_ENCODE = "after_packet_length_encode"
+    AFTER_BUILD = "after_build"
 
 class AokoPacketRegister(Enum):
     HOOKER = "hooker"
