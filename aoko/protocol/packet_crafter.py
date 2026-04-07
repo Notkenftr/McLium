@@ -33,8 +33,6 @@ class AokoPacketCrafter:
         self.before_encode_field = []
         self.after_encode_field = []
 
-        # TODO: lm 3 cai duoi
-
         self.before_packet_length_encode = []
         self.after_packet_length_encode = []
         self.after_build = []
