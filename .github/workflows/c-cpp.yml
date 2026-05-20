@@ -1,0 +1,34 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: ["main", "Aoko"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install deps
+      run: |
+        sudo apt update
+        sudo apt install -y cmake g++ python3-dev
+
+    - name: Configure
+      run: cmake -S ./aoko -B build
+
+    - name: Build
+      run: cmake --build build -j
+
+    - name: Show output
+      run: ls -lah build
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: aoko-build
+        path: build/*.so
