@@ -16,6 +16,11 @@ jobs:
     - name: Install deps
       run: |
         sudo apt update
+        sudo apt install -y cmake g++ python3-dev pybind11-dev
+
+    - name: Install deps
+      run: |
+        sudo apt update
         sudo apt install -y cmake g++ python3-dev
 
     - name: Configure
