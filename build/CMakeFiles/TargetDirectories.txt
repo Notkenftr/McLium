@@ -1,0 +1,5 @@
+/home/kenftr/CLionProjects/Aoko/build/CMakeFiles/aoko_core.dir
+/home/kenftr/CLionProjects/Aoko/build/CMakeFiles/aoko.dir
+/home/kenftr/CLionProjects/Aoko/build/CMakeFiles/aoko_cli.dir
+/home/kenftr/CLionProjects/Aoko/build/CMakeFiles/edit_cache.dir
+/home/kenftr/CLionProjects/Aoko/build/CMakeFiles/rebuild_cache.dir

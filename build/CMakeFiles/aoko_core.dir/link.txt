@@ -1,0 +1,2 @@
+/usr/bin/ar qc libaoko_core.a CMakeFiles/aoko_core.dir/src/packet_api.cpp.o CMakeFiles/aoko_core.dir/codec/encode.cpp.o
+/usr/bin/ranlib libaoko_core.a
