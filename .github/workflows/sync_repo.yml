@@ -1,0 +1,32 @@
+name: sync aoko branch
+
+on:
+  push:
+    branches:
+      - Aoko
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout aoko branch
+        uses: actions/checkout@v4
+        with:
+          ref: Aoko
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main_repo
+      - name: Sync
+        run: |
+          rm -rf main_repo/aoko
+          mkdir -p main_repo/aoko
+          cp -r ./* main_repo/aoko/
+      - name: Commit changes
+        run: |
+          cd main_repo
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add aoko
+          git commit -m "sync Aoko → main/aoko" || echo "no changes"
+          git push
