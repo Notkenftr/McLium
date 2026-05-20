@@ -6,7 +6,7 @@
 
 int main()
 {
-    PacketApi p;
+    PacketApi p(1);
     p.add_field(255);
     auto data = p.build_uncompress_packet();
 
