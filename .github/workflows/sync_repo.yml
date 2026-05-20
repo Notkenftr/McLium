@@ -17,11 +17,11 @@ jobs:
         with:
           ref: main
           path: main_repo
-      - name: Sync
+      - name: Sync folder
         run: |
           rm -rf main_repo/aoko
           mkdir -p main_repo/aoko
-          cp -r ./* main_repo/aoko/
+          rsync -av --exclude main_repo ./aoko/ main_repo/aoko/
       - name: Commit changes
         run: |
           cd main_repo
