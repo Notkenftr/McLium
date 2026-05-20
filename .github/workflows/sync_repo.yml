@@ -24,12 +24,9 @@ jobs:
 
       - name: Sync folder
         run: |
-          # Xóa sạch thư mục cũ trong branch main để cập nhật mới
           rm -rf main_repo/aoko
           mkdir -p main_repo/aoko
           
-          # Lấy TOÀN BỘ file ở thư mục gốc (tức là branch Aoko) chuyển vào main_repo/aoko/
-          # --exclude 'main_repo' để rsync không tự copy đè vào chính thư mục đích
           rsync -av --exclude=main_repo --exclude=.git ./ main_repo/aoko/
 
       - name: Commit changes
