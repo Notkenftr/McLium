@@ -4,29 +4,41 @@ on:
   push:
     branches:
       - Aoko
+
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout aoko branch
         uses: actions/checkout@v4
         with:
           ref: Aoko
+
       - name: Checkout main branch
         uses: actions/checkout@v4
         with:
           ref: main
           path: main_repo
+
       - name: Sync folder
         run: |
+          # Xóa sạch thư mục cũ trong branch main để cập nhật mới
           rm -rf main_repo/aoko
           mkdir -p main_repo/aoko
-          rsync -av --exclude main_repo ./aoko/ main_repo/aoko/
+          
+          # Lấy TOÀN BỘ file ở thư mục gốc (tức là branch Aoko) chuyển vào main_repo/aoko/
+          # --exclude 'main_repo' để rsync không tự copy đè vào chính thư mục đích
+          rsync -av --exclude=main_repo --exclude=.git ./ main_repo/aoko/
+
       - name: Commit changes
         run: |
           cd main_repo
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
           git add aoko
-          git commit -m "sync Aoko → main/aoko" || echo "no changes"
-          git push
+          # Nếu không có thay đổi gì thì bỏ qua, không làm lỗi pipeline
+          git diff-index --quiet HEAD || git commit -m "Chore: sync Aoko → main/aoko"
+          git push origin main
