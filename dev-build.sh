@@ -8,4 +8,4 @@ done
 
 sleep 1
 
-mv ./build/aoko.so ../libs/
+mv ./build/aoko.so ~/PycharmProjects/test/
