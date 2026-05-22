@@ -39,23 +39,21 @@ git clone https://github.com/your-username/McLium.git
 cd McLium
 ```
 
-## 2. Create virtual environment (recommended)
-
+## 2. Install
 ### Linux / macOs
 ```bash
-python -m venv .venv
-source .venv/bin/activate   
+chmod +x ./install.sh
+./install.sh
 ```
 
 ### Window
 ```bash
-python -m venv .venv
-.venv\Scripts\activate 
+install.bat
 ```
 
 ## 3. Run McLium
 ```bash
-python Mclium.py --help
+mclium --help
 ```
 <a href="https://www.star-history.com/?repos=Notkenftr%2FMcLium&type=date&legend=top-left">
  <picture>
