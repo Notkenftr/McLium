@@ -15,8 +15,10 @@
     <img src="docs/assets/McLium_protocol_flow.png" width="900">
 </p>
 
-
----
+> [!WARNING]
+> NOT AN OFFICIAL MCLIUM PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
+> 
+---!
 # 📄 Documentation
 
 Comprehensive guides for developing and extending McLium:
