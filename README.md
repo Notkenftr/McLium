@@ -4,7 +4,11 @@
   <img src="docs/assets/McLium_header_readme.png" width="1920">
 </p>
 
-**McLium is developed strictly for educational purposes and authorized security research only.**
+
+> [!WARNING]
+> NOT AN OFFICIAL MCLIUM PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
+> McLium is developed strictly for educational purposes and authorized security research only.
+
 ---
 # 📦 McLium Protocol API 
 <p align="center">
@@ -15,10 +19,7 @@
     <img src="docs/assets/McLium_protocol_flow.png" width="900">
 </p>
 
-> [!WARNING]
-> NOT AN OFFICIAL MCLIUM PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
-> 
----!
+---
 # 📄 Documentation
 
 Comprehensive guides for developing and extending McLium:
