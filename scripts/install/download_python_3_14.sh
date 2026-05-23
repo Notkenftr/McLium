@@ -50,11 +50,11 @@ make install
 cd "$BASE_DIR" || exit 1
 
 if [ -n "$EXTRACTED_DIR" ] && [ -d "$TEMP_DIR/$EXTRACTED_DIR" ]; then
-    rm -rf "$TEMP_DIR/$EXTRACTED_DIR"
+    rm -rf "${TEMP_DIR:?}/${EXTRACTED_DIR:?}"
 fi
 
 if [ -f "$TEMP_DIR/$NAME" ]; then
-    rm -f "$TEMP_DIR/$NAME"
+    rm -f "${TEMP_DIR:?}/${NAME:?}"
 fi
 
 echo "$RUNTIME_DIR"
