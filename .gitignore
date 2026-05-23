@@ -4,6 +4,7 @@
 
 # User-specific stuff
 .idea/
+libs/
 ./.idea/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -82,3 +83,4 @@ fabric.properties
 !/aoko/build/
 !/runtime/
 !/temp/
+!/libs/

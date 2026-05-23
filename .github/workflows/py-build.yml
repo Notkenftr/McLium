@@ -34,7 +34,7 @@ jobs:
       - name: Verify Python Runtime installation
         run: |
           if [ -f "runtime/py/bin/python3" ]; then
-            ./runtime/py/bin/python3 --versiongit 
+            ./runtime/py/bin/python3 --version 
           else
             ls -R ../../runtime || true
           fi
