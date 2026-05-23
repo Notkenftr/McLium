@@ -6,8 +6,8 @@ class SearchEngine(object):
     def insert(self,prefix):
         node = self.root
         for char in prefix:
-            if char not in self.root.children:
-                self.root.children[char] = TrieNode()
+            if char not in node.children:
+                node.children[char] = TrieNode()
             node = node.children[char]
         node.is_end = True
 
@@ -15,8 +15,8 @@ class SearchEngine(object):
         node = self.root
         for prefix in prefixes:
             for char in prefix:
-                if char not in self.root.children:
-                    self.root.children[char] = TrieNode()
+                if char not in node.children:
+                    node.children[char] = TrieNode()
                 node = node.children[char]
             node.is_end = True
 

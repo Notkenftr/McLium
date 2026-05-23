@@ -1,0 +1,36 @@
+Screen {
+    align: center middle;
+    background: #121212;
+}
+
+#box {
+    align: center middle;
+    width: auto;
+    height: auto;
+}
+
+AutoCompleteWidget {
+    width: 60;
+    height: auto;
+    max-height: 5;
+    background: #1e1e1e;
+    border-left: solid #2b2b2b;
+    border-right: solid #2b2b2b;
+}
+
+.input-area {
+    margin-top: 1;
+    width: auto;
+    height: auto;
+}
+
+Input {
+    width: 60;
+    border: round #2b2b2b;
+    background: #1e1e1e;
+    color: white;
+}
+
+Static {
+    color: white;
+}

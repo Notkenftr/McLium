@@ -1,7 +1,7 @@
 from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.widgets import Header, Button, Static,TextArea,Input
-
+from mclium.api.search.search_engine import SearchEngine
 
 class AutoCompleteWidget(Vertical):
     def __init__(self, **kwargs):
@@ -12,10 +12,12 @@ class AutoCompleteWidget(Vertical):
             "@get-server-info",
             "@port-scan"
         ]
-        self.trie = Trie()
+        self.trie = SearchEngine()
         for name in self.plugin_names:
             self.trie.insert(name)
+
         # TODO: hoàn thành auto complete với ui sau khi done thằng loader + loader manager
+
     def update_suggestions(self, current_input: str) -> None:
         self.query("*").remove()
 
