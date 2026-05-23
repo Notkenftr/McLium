@@ -41,11 +41,20 @@ echo "Configure..."
 
 make -j$(nproc)
 
-rm -rf "$RUNTIME_DIR"/*
+if [ -n "$RUNTIME_DIR" ] && [ -d "$RUNTIME_DIR" ]; then
+    rm -rf "${RUNTIME_DIR:?}/"*
+fi
+
 make install
 
 cd "$BASE_DIR" || exit 1
-rm -rf "$TEMP_DIR/$EXTRACTED_DIR"
-rm -f "$TEMP_DIR/$NAME"
+
+if [ -n "$EXTRACTED_DIR" ] && [ -d "$TEMP_DIR/$EXTRACTED_DIR" ]; then
+    rm -rf "$TEMP_DIR/$EXTRACTED_DIR"
+fi
+
+if [ -f "$TEMP_DIR/$NAME" ]; then
+    rm -f "$TEMP_DIR/$NAME"
+fi
 
 echo "$RUNTIME_DIR"
