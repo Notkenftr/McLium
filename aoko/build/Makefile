@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/kenftr/CLionProjects/Aoko
+CMAKE_SOURCE_DIR = /home/kenftr/PycharmProjects/McLi/aoko
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kenftr/CLionProjects/Aoko/build
+CMAKE_BINARY_DIR = /home/kenftr/PycharmProjects/McLi/aoko/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kenftr/CLionProjects/Aoko/build/CMakeFiles /home/kenftr/CLionProjects/Aoko/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kenftr/PycharmProjects/McLi/aoko/build/CMakeFiles /home/kenftr/PycharmProjects/McLi/aoko/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kenftr/CLionProjects/Aoko/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kenftr/PycharmProjects/McLi/aoko/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

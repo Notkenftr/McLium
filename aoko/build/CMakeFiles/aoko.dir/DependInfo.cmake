@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/kenftr/CLionProjects/Aoko/bindings.cpp" "CMakeFiles/aoko.dir/bindings.cpp.o" "gcc" "CMakeFiles/aoko.dir/bindings.cpp.o.d"
+  "/home/kenftr/PycharmProjects/McLi/aoko/bindings.cpp" "CMakeFiles/aoko.dir/bindings.cpp.o" "gcc" "CMakeFiles/aoko.dir/bindings.cpp.o.d"
   "" "aoko.so" "gcc" "CMakeFiles/aoko.dir/link.d"
   )
 

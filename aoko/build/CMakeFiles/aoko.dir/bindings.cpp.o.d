@@ -1,7 +1,8 @@
 CMakeFiles/aoko.dir/bindings.cpp.o: \
- /home/kenftr/CLionProjects/Aoko/bindings.cpp /usr/include/stdc-predef.h \
- /usr/include/pybind11/pybind11.h /usr/include/pybind11/detail/class.h \
- /usr/include/pybind11/attr.h /usr/include/pybind11/detail/common.h \
+ /home/kenftr/PycharmProjects/McLi/aoko/bindings.cpp \
+ /usr/include/stdc-predef.h /usr/include/pybind11/pybind11.h \
+ /usr/include/pybind11/detail/class.h /usr/include/pybind11/attr.h \
+ /usr/include/pybind11/detail/common.h \
  /usr/include/pybind11/conduit/wrap_include_python_h.h \
  /usr/include/python3.14/Python.h /usr/include/python3.14/patchlevel.h \
  /usr/include/python3.14/pyconfig.h /usr/include/python3.14/pymacconfig.h \
@@ -415,5 +416,5 @@ CMakeFiles/aoko.dir/bindings.cpp.o: \
  /usr/include/c++/15.2.1/bits/mask_array.h \
  /usr/include/c++/15.2.1/bits/indirect_array.h \
  /usr/include/c++/15.2.1/variant /usr/include/c++/15.2.1/bits/monostate.h \
- /home/kenftr/CLionProjects/Aoko/include/packet_api.h \
- /home/kenftr/CLionProjects/Aoko/include/encode.h
+ /home/kenftr/PycharmProjects/McLi/aoko/include/packet_api.h \
+ /home/kenftr/PycharmProjects/McLi/aoko/include/encode.h

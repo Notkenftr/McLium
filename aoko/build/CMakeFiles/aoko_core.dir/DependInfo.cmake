@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/kenftr/CLionProjects/Aoko/codec/encode.cpp" "CMakeFiles/aoko_core.dir/codec/encode.cpp.o" "gcc" "CMakeFiles/aoko_core.dir/codec/encode.cpp.o.d"
-  "/home/kenftr/CLionProjects/Aoko/src/packet_api.cpp" "CMakeFiles/aoko_core.dir/src/packet_api.cpp.o" "gcc" "CMakeFiles/aoko_core.dir/src/packet_api.cpp.o.d"
+  "/home/kenftr/PycharmProjects/McLi/aoko/codec/encode.cpp" "CMakeFiles/aoko_core.dir/codec/encode.cpp.o" "gcc" "CMakeFiles/aoko_core.dir/codec/encode.cpp.o.d"
+  "/home/kenftr/PycharmProjects/McLi/aoko/src/packet_api.cpp" "CMakeFiles/aoko_core.dir/src/packet_api.cpp.o" "gcc" "CMakeFiles/aoko_core.dir/src/packet_api.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

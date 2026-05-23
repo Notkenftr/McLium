@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/kenftr/CLionProjects/Aoko
+CMAKE_SOURCE_DIR = /home/kenftr/PycharmProjects/McLi/aoko
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kenftr/CLionProjects/Aoko/build
+CMAKE_BINARY_DIR = /home/kenftr/PycharmProjects/McLi/aoko/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/aoko_core.dir/depend.make
@@ -73,32 +73,32 @@ CMakeFiles/aoko_core.dir/codegen:
 .PHONY : CMakeFiles/aoko_core.dir/codegen
 
 CMakeFiles/aoko_core.dir/src/packet_api.cpp.o: CMakeFiles/aoko_core.dir/flags.make
-CMakeFiles/aoko_core.dir/src/packet_api.cpp.o: /home/kenftr/CLionProjects/Aoko/src/packet_api.cpp
+CMakeFiles/aoko_core.dir/src/packet_api.cpp.o: /home/kenftr/PycharmProjects/McLi/aoko/src/packet_api.cpp
 CMakeFiles/aoko_core.dir/src/packet_api.cpp.o: CMakeFiles/aoko_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/kenftr/CLionProjects/Aoko/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/aoko_core.dir/src/packet_api.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/aoko_core.dir/src/packet_api.cpp.o -MF CMakeFiles/aoko_core.dir/src/packet_api.cpp.o.d -o CMakeFiles/aoko_core.dir/src/packet_api.cpp.o -c /home/kenftr/CLionProjects/Aoko/src/packet_api.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/kenftr/PycharmProjects/McLi/aoko/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/aoko_core.dir/src/packet_api.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/aoko_core.dir/src/packet_api.cpp.o -MF CMakeFiles/aoko_core.dir/src/packet_api.cpp.o.d -o CMakeFiles/aoko_core.dir/src/packet_api.cpp.o -c /home/kenftr/PycharmProjects/McLi/aoko/src/packet_api.cpp
 
 CMakeFiles/aoko_core.dir/src/packet_api.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aoko_core.dir/src/packet_api.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kenftr/CLionProjects/Aoko/src/packet_api.cpp > CMakeFiles/aoko_core.dir/src/packet_api.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kenftr/PycharmProjects/McLi/aoko/src/packet_api.cpp > CMakeFiles/aoko_core.dir/src/packet_api.cpp.i
 
 CMakeFiles/aoko_core.dir/src/packet_api.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aoko_core.dir/src/packet_api.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kenftr/CLionProjects/Aoko/src/packet_api.cpp -o CMakeFiles/aoko_core.dir/src/packet_api.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kenftr/PycharmProjects/McLi/aoko/src/packet_api.cpp -o CMakeFiles/aoko_core.dir/src/packet_api.cpp.s
 
 CMakeFiles/aoko_core.dir/codec/encode.cpp.o: CMakeFiles/aoko_core.dir/flags.make
-CMakeFiles/aoko_core.dir/codec/encode.cpp.o: /home/kenftr/CLionProjects/Aoko/codec/encode.cpp
+CMakeFiles/aoko_core.dir/codec/encode.cpp.o: /home/kenftr/PycharmProjects/McLi/aoko/codec/encode.cpp
 CMakeFiles/aoko_core.dir/codec/encode.cpp.o: CMakeFiles/aoko_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/kenftr/CLionProjects/Aoko/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/aoko_core.dir/codec/encode.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/aoko_core.dir/codec/encode.cpp.o -MF CMakeFiles/aoko_core.dir/codec/encode.cpp.o.d -o CMakeFiles/aoko_core.dir/codec/encode.cpp.o -c /home/kenftr/CLionProjects/Aoko/codec/encode.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/kenftr/PycharmProjects/McLi/aoko/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/aoko_core.dir/codec/encode.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/aoko_core.dir/codec/encode.cpp.o -MF CMakeFiles/aoko_core.dir/codec/encode.cpp.o.d -o CMakeFiles/aoko_core.dir/codec/encode.cpp.o -c /home/kenftr/PycharmProjects/McLi/aoko/codec/encode.cpp
 
 CMakeFiles/aoko_core.dir/codec/encode.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aoko_core.dir/codec/encode.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kenftr/CLionProjects/Aoko/codec/encode.cpp > CMakeFiles/aoko_core.dir/codec/encode.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kenftr/PycharmProjects/McLi/aoko/codec/encode.cpp > CMakeFiles/aoko_core.dir/codec/encode.cpp.i
 
 CMakeFiles/aoko_core.dir/codec/encode.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aoko_core.dir/codec/encode.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kenftr/CLionProjects/Aoko/codec/encode.cpp -o CMakeFiles/aoko_core.dir/codec/encode.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kenftr/PycharmProjects/McLi/aoko/codec/encode.cpp -o CMakeFiles/aoko_core.dir/codec/encode.cpp.s
 
 # Object files for target aoko_core
 aoko_core_OBJECTS = \
@@ -112,7 +112,7 @@ libaoko_core.a: CMakeFiles/aoko_core.dir/src/packet_api.cpp.o
 libaoko_core.a: CMakeFiles/aoko_core.dir/codec/encode.cpp.o
 libaoko_core.a: CMakeFiles/aoko_core.dir/build.make
 libaoko_core.a: CMakeFiles/aoko_core.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/kenftr/CLionProjects/Aoko/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libaoko_core.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/kenftr/PycharmProjects/McLi/aoko/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libaoko_core.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/aoko_core.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/aoko_core.dir/link.txt --verbose=$(VERBOSE)
 
@@ -125,6 +125,6 @@ CMakeFiles/aoko_core.dir/clean:
 .PHONY : CMakeFiles/aoko_core.dir/clean
 
 CMakeFiles/aoko_core.dir/depend:
-	cd /home/kenftr/CLionProjects/Aoko/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kenftr/CLionProjects/Aoko /home/kenftr/CLionProjects/Aoko /home/kenftr/CLionProjects/Aoko/build /home/kenftr/CLionProjects/Aoko/build /home/kenftr/CLionProjects/Aoko/build/CMakeFiles/aoko_core.dir/DependInfo.cmake "--color=$(COLOR)" aoko_core
+	cd /home/kenftr/PycharmProjects/McLi/aoko/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kenftr/PycharmProjects/McLi/aoko /home/kenftr/PycharmProjects/McLi/aoko /home/kenftr/PycharmProjects/McLi/aoko/build /home/kenftr/PycharmProjects/McLi/aoko/build /home/kenftr/PycharmProjects/McLi/aoko/build/CMakeFiles/aoko_core.dir/DependInfo.cmake "--color=$(COLOR)" aoko_core
 .PHONY : CMakeFiles/aoko_core.dir/depend
 

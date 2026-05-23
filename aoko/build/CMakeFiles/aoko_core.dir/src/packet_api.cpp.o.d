@@ -1,5 +1,5 @@
 CMakeFiles/aoko_core.dir/src/packet_api.cpp.o: \
- /home/kenftr/CLionProjects/Aoko/src/packet_api.cpp \
+ /home/kenftr/PycharmProjects/McLi/aoko/src/packet_api.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/15.2.1/cstdint \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/os_defines.h \
@@ -67,5 +67,5 @@ CMakeFiles/aoko_core.dir/src/packet_api.cpp.o: \
  /usr/include/c++/15.2.1/bits/uses_allocator.h \
  /usr/include/c++/15.2.1/bits/uses_allocator_args.h \
  /usr/include/c++/15.2.1/tuple /usr/include/c++/15.2.1/bits/ranges_util.h \
- /home/kenftr/CLionProjects/Aoko/src/../include/packet_api.h \
- /home/kenftr/CLionProjects/Aoko/src/../include/encode.h
+ /home/kenftr/PycharmProjects/McLi/aoko/src/../include/packet_api.h \
+ /home/kenftr/PycharmProjects/McLi/aoko/src/../include/encode.h

@@ -1,6 +1,6 @@
 CMakeFiles/aoko_cli.dir/main.cpp.o: \
- /home/kenftr/CLionProjects/Aoko/main.cpp /usr/include/stdc-predef.h \
- /usr/include/c++/15.2.1/iostream \
+ /home/kenftr/PycharmProjects/McLi/aoko/main.cpp \
+ /usr/include/stdc-predef.h /usr/include/c++/15.2.1/iostream \
  /usr/include/c++/15.2.1/bits/requires_hosted.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/os_defines.h \
@@ -157,4 +157,4 @@ CMakeFiles/aoko_cli.dir/main.cpp.o: \
  /usr/include/c++/15.2.1/bits/stl_vector.h \
  /usr/include/c++/15.2.1/bits/stl_bvector.h \
  /usr/include/c++/15.2.1/bits/vector.tcc \
- /home/kenftr/CLionProjects/Aoko/include/packet_api.h
+ /home/kenftr/PycharmProjects/McLi/aoko/include/packet_api.h

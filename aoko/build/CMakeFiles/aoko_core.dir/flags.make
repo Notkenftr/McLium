@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/kenftr/CLionProjects/Aoko/include
+CXX_INCLUDES = -I/home/kenftr/PycharmProjects/McLi/aoko/include
 
 CXX_FLAGS = -std=gnu++20 -fPIC
 

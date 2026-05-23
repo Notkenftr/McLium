@@ -1,5 +1,5 @@
 CMakeFiles/aoko_core.dir/codec/encode.cpp.o: \
- /home/kenftr/CLionProjects/Aoko/codec/encode.cpp \
+ /home/kenftr/PycharmProjects/McLi/aoko/codec/encode.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/15.2.1/cstdint \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/os_defines.h \
@@ -67,4 +67,4 @@ CMakeFiles/aoko_core.dir/codec/encode.cpp.o: \
  /usr/include/c++/15.2.1/bits/uses_allocator.h \
  /usr/include/c++/15.2.1/bits/uses_allocator_args.h \
  /usr/include/c++/15.2.1/tuple /usr/include/c++/15.2.1/bits/ranges_util.h \
- /home/kenftr/CLionProjects/Aoko/codec/../include/encode.h
+ /home/kenftr/PycharmProjects/McLi/aoko/codec/../include/encode.h

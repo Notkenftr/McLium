@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -Daoko_EXPORTS
 
-CXX_INCLUDES = -I/home/kenftr/CLionProjects/Aoko/include -isystem /usr/include/python3.14
+CXX_INCLUDES = -I/home/kenftr/PycharmProjects/McLi/aoko/include -isystem /usr/include/python3.14
 
 CXX_FLAGS = -std=gnu++20 -fPIC
 

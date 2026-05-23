@@ -1,0 +1,40 @@
+name: Build Python Runtime
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential zlib1g-dev libncurses5-dev \
+            libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev \
+            libsqlite3-dev libbz2-dev liblzma-dev
+
+      - name: Grant execute permission for scripts
+        run: |
+          chmod +x scripts/install/download_python_3_14.sh
+
+      - name: Run Python build script
+        run: |
+          cd scripts/install
+          ./download_python_3_14.sh
+
+      - name: Verify Python Runtime installation
+        run: |
+          if [ -f "runtime/py/bin/python3" ]; then
+            ./runtime/py/bin/python3 --versiongit 
+          else
+            ls -R ../../runtime || true
+          fi
