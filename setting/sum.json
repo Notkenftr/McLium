@@ -1,0 +1,14 @@
+{
+  "note": ["This file stores the SHA-256 hashes for Aoko and Airi,",
+    "which are used by McLium's integrity and auto-validation system.",
+    "If you fork or modify either component, make sure to update the corresponding hashes."
+  ],
+  "aoko": {
+    "sha-256": "",
+    "sha-512": ""
+  },
+  "airi": {
+    "sha-256": "",
+    "sha-512": ""
+  }
+}

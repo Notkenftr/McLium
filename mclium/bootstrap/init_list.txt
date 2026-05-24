@@ -1,0 +1,17 @@
+plugin manager
+memorycontext
+
+pile line
+
+init.py check aoko and airi
+init.py checksum aoko and airi
+
+if dont have aoko or airi, build
+build fail -> download
+
+init.py call check_depend and create folder
+init.py init plugin manager and memory context
+
+meiby add service
+init.py call loader load pl
+init.py call term_ui

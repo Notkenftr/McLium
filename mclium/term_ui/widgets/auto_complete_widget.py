@@ -2,19 +2,21 @@ from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.widgets import Header, Button, Static,TextArea,Input
 from mclium.api.search.search_engine import SearchEngine
+from mclium.manager.plugin_manager import PluginManager
 
+from mclium.api.plugin import UiPlugin
 class AutoCompleteWidget(Vertical):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.plugin_names = [
-            "@clone",
-            "@get-server-info",
-            "@port-scan"
-        ]
+        self.plugin_obj = PluginManager().get_plugins()
         self.trie = SearchEngine()
-        for name in self.plugin_names:
-            self.trie.insert(name)
+        for pl in self.plugin_obj:
+            pl: UiPlugin
+            pl_name: UiPlugin = pl.name
+            if not pl_name.__str__().startswith("@"):
+                pl_name = f"@{pl_name}"
+            self.trie.insert(pl_name)
 
         # TODO: hoàn thành auto complete với ui sau khi done thằng loader + loader manager
 

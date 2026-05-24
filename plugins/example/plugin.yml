@@ -1,0 +1,11 @@
+name: "example plugin"
+version: "1.0.0"
+description: "An example plugin for demonstration purposes."
+author: "kenftr"
+main: "main.App"
+
+depend: []
+
+register:
+  ui_plugin: true
+  arg_plugin: true
