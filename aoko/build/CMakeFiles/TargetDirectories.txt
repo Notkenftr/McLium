@@ -1,5 +1,0 @@
-/home/kenftr/PycharmProjects/McLi/aoko/build/CMakeFiles/aoko_core.dir
-/home/kenftr/PycharmProjects/McLi/aoko/build/CMakeFiles/aoko.dir
-/home/kenftr/PycharmProjects/McLi/aoko/build/CMakeFiles/aoko_cli.dir
-/home/kenftr/PycharmProjects/McLi/aoko/build/CMakeFiles/edit_cache.dir
-/home/kenftr/PycharmProjects/McLi/aoko/build/CMakeFiles/rebuild_cache.dir
