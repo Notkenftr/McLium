@@ -64,7 +64,7 @@ mclium --help
 </a>
 
 
-##📍 LICENSE
+## 📍 LICENSE
 MIT License
 
 Copyright (c) 2025 kenftr
