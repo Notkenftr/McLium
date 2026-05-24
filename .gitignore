@@ -3,6 +3,8 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
+aoko/build/
+aoko/.idea/
 .idea/
 libs/
 ./.idea/
@@ -84,3 +86,4 @@ fabric.properties
 !/runtime/
 !/temp/
 !/libs/
+!/aoko/
